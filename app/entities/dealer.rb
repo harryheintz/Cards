@@ -1,18 +1,18 @@
 require_relative './card_deck'
 
 
-class Dealer
+class Dealer < CardDeck
+  
   attr_accessor :cards
   
- def initialize(fresh_deck)
-    @deck = fresh_deck
+  
+  
+ def initialize(fresh_deck = Dealer.new(CardDeck.new.cards))
+    
+    deck = fresh_deck
     
   end
   
-  def shuffle
-  end
   
-  def split
-  end
 end
- #fresh_deck = CardDeck.new.cards
+ 
