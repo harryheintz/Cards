@@ -6,18 +6,24 @@ class Dealer < CardDeck
   
   attr_accessor :cards
   
-  def initialize(fresh_deck)
+  def initialize(cardset)
     
-    @deck = fresh_deck
+    @newdeck = cardset
+    
+  end
+  
+  def shuffle
+    
+  end
+  
+  def deal
     
   end
   
   
   
   
-  
-  
-  fresh_deck = CardDeck.new.cards  
+  deck = Dealer.new(CardDeck.new.cards)   
  
   
   
