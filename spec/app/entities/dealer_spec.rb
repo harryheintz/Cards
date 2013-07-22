@@ -6,16 +6,16 @@ describe Dealer do
  
   context "initilization" do
     
+    
     it "should have a fresh deck of cards" do
-      result = Dealer.new(CardDeck.new.cards)
-      expect(result).not_to be_nil
+         result = Dealer.new
+         expect(result.fresh_deck).not_to be_empty
     end
     
-    it "should have the correct number of cards" do
-      result = deck
-      expect(result.count).to eq 52
+    it "should be shuffled" do
+         result = Dealer.new.shuffle
+         expect(result).not_to start_with "2Clubs"
     end
-    
       
     
   end

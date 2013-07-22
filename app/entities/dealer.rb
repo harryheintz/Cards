@@ -1,13 +1,14 @@
 require_relative './card_deck'
 
-
-class Dealer < CardDeck
+class Dealer
+  attr_accessor :cards, :fresh_deck
   
-  
-  attr_accessor :cards
-  
+  def initialize
+    self.fresh_deck = CardDeck.new.cards
+  end
   
   def shuffle
+    fresh_deck.shuffle!
     
   end
   
@@ -16,11 +17,7 @@ class Dealer < CardDeck
   end
   
   
-  
-  
-  deck = Dealer.new(CardDeck.new.cards)   
+
  
-  
-  
 end
  
