@@ -11,7 +11,7 @@ describe Dealer do
       expect(result).not_to be_nil
     end
     
-    it "should have the correct number od cards" do
+    it "should have the correct number of cards" do
       result = deck
       expect(result.count).to eq 52
     end

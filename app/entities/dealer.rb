@@ -6,11 +6,6 @@ class Dealer < CardDeck
   
   attr_accessor :cards
   
-  def initialize(cardset)
-    
-    @newdeck = cardset
-    
-  end
   
   def shuffle
     
