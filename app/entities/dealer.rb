@@ -1,25 +1,11 @@
 require_relative './card_deck'
 
-
-class Dealer < CardDeck
-  
-  
+class Dealer
   attr_accessor :cards
   
-  def initialize(fresh_deck)
-    
-    @deck = fresh_deck
-    
+  def initialize
+    self.cards = CardDeck.new.cards
   end
-  
-  
-  
-  
-  
-  
-  fresh_deck = CardDeck.new.cards  
  
-  
-  
 end
  

@@ -7,8 +7,8 @@ describe Dealer do
   context "initilization" do
     
     it "should have a fresh deck of cards" do
-      result = Dealer.new(CardDeck.new.cards)
-      expect(result).not_to be_nil
+      result = Dealer.new
+      expect(result.cards).not_to be_empty
     end
     
   end
