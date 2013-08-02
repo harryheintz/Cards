@@ -5,19 +5,9 @@ describe CardDeck do
  
   context "initilization" do
     
-    it "values should not be an empty array" do
+    it "get should not be an empty array" do
       result = CardDeck.new
-      expect(result.values).not_to be_empty
-    end
-  
-    it "suits should not be an empty array" do
-      result = CardDeck.new
-      expect(result.suits).not_to be_empty
-    end
-    
-    it "cards should not by an empty array" do
-      result = CardDeck.new
-      expect(result.cards).not_to be_empty
+      expect(result.receive).not_to be_empty
     end
     
   end
