@@ -15,7 +15,7 @@ describe Blackjack do
   context "card distribution" do
     
     it "should return the correct number of card for the hand" do
-      result = Blackjack.new(2).hand
+      result = Blackjack.new(2).starting_hand
       result_2 = Blackjack.new(2).number_of_players
       expect(result / result_2).to equal 2
     end

@@ -12,7 +12,7 @@ class Blackjack
     
   end
   
-  def hand
+  def starting_hand
     number_of_cards = (number_of_players * 2)
     
   end
