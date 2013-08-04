@@ -12,7 +12,7 @@ describe Dealer do
     end
   
     it "should be shuffled" do
-      deck = CardDeck.new.receive
+      deck = CardDeck.receive
       result = Dealer.new
       expect(result.deck).not_to eq(deck)
     end

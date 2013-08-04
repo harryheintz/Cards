@@ -2,7 +2,7 @@ class Dealer
   attr_accessor :deck
   
   def initialize
-    self.deck = CardDeck.new.receive
+    self.deck = CardDeck.receive
     shuffle
   end
   

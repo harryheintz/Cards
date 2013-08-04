@@ -1,21 +1,25 @@
 class Blackjack
+  attr_accessor :number_of_players, :dealer
   
-  attr_accessor :number_of_players, :player, :number_of_cards
+  def self.start(player_count)
+    new(player_count)
+  end
   
-  def initialize(individuals)
-    self.player = individuals
+  def initialize(player_count)
+    @number_of_players = player_count
+    @dealer = Dealer.new
+  end
+  
+  def deal
     
   end
   
-  def number_of_players
-    self.player
-    
+  def number_of_cards_for_inital_deal
+    number_of_players * 2
   end
   
-  def starting_hand
-    number_of_cards = (number_of_players * 2)
-    
+  def cards_for_first_deal
+    @dealer.deal(number_of_cards_for_inital_deal)
   end
- 
   
 end

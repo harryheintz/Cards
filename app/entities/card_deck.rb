@@ -6,10 +6,10 @@ end
 
 class CardDeck
   include CardFaces
-  attr_accessor :receive
   
-  def receive
-    build_deck
+  def self.receive
+    deck = self.new
+    deck.build_deck
   end
   
   def build_deck
