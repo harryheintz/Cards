@@ -29,11 +29,23 @@ describe Blackjack do
     end
     
     it "should distribute face down cards to players" do 
-      pending
+      result = Blackjack.start(2).deal_down
+      expect(result).to have(2).items
     end
     
     it "should distribute face up cards to players" do 
-      pending
+      result = Blackjack.start(2).deal_up
+      expect(result).to have(2).items
+    end
+    
+    it "should deal the first hand" do
+      result = Blackjack.start(2).get_hand
+      expect(result).to have(2).items
+    end
+    
+    it "should lessen the array" do
+      result  = Blackjack.start(2).get_hand
+      expect(result.cards_for_first_deal).to have(2).items
     end
   end
   
