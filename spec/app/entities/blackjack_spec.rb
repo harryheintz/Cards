@@ -38,14 +38,50 @@ describe Blackjack do
       expect(result).to have(2).items
     end
     
-    
     it "should empty the array" do
       game = Blackjack.start(2)
       game.deal_up
       game.deal_down
-      result = game.dealer_hand
+      result = game.intial_cards
       expect(result).to have(0).items
     end
+    
+    it "should create a hand for player" do
+      pending
+    end
+    
+    it "should create a hand for house" do
+      pending
+    end
+  end
+  
+  context "card value evaluation" do
+  
+    it "should strip away unneeded suit info" do
+      pending
+    end
+  
+    it "should assign number value for number cards" do
+      pending
+    end
+    
+    it "should assign value of 10 for face cards" do
+      pending
+    end
+    
+    it "should assign value of 1 or 10 for ace" do
+      pending
+    end
+    
+    it "should assing interger values to all cards" do
+      pending
+    end
+  
+  end
+  
+  context "game play" do
+  
+  
   end
   
 end

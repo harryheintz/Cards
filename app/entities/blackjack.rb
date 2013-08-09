@@ -1,14 +1,15 @@
-class Blackjack
-  attr_accessor :number_of_players, :dealer, :dealer_hand
+class Blackjack 
+  attr_accessor :number_of_players, :dealer, :intial_cards
   
-  def self.start(player_count)
-    new(player_count)
+  def self.start(player_count, user)
+    new(player_count, user)
   end
   
-  def initialize(player_count)
+  def initialize(player_count, user)
     @number_of_players = player_count
+    @user = user
     @dealer = Dealer.new
-    @dealer_hand = cards_for_first_deal
+    cards_for_first_deal
   end
   
   def number_of_cards_for_inital_deal
@@ -16,15 +17,15 @@ class Blackjack
   end
   
   def cards_for_first_deal
-    @dealer.deal(number_of_cards_for_inital_deal)
+    @intial_cards = @dealer.deal(number_of_cards_for_inital_deal)
   end
   
   def deal_down
-    @dealer_hand.shift(2)
+    @intial_cards.shift(@number_of_players)
   end
   
   def deal_up
-    @dealer_hand.shift(2)
+    @intial_cards.shift(@number_of_players)
   end
   
   
