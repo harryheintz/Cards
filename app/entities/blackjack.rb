@@ -3,6 +3,7 @@ class Blackjack
   
   def self.start(player_count, user)
     new(player_count, user)
+    #json_response = { blah }
   end
   
   def initialize(player_count, user)
