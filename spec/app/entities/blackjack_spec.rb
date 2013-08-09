@@ -38,14 +38,13 @@ describe Blackjack do
       expect(result).to have(2).items
     end
     
-    it "should deal the first hand" do
-      result = Blackjack.start(2).get_hand
-      expect(result).to have(2).items
-    end
     
-    it "should lessen the array" do
-      result  = Blackjack.start(2).get_hand
-      expect(result.cards_for_first_deal).to have(2).items
+    it "should empty the array" do
+      game = Blackjack.start(2)
+      game.deal_up
+      game.deal_down
+      result = game.dealer_hand
+      expect(result).to have(0).items
     end
   end
   
