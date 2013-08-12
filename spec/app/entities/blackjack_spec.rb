@@ -7,52 +7,73 @@ describe Blackjack do
   
   context "initialization" do
     it "should return the correct number of players assigned" do
-      result = Blackjack.start(1).number_of_players
+      result = Blackjack.start(1,1).number_of_players
       expect(result).to eq 1
     end
     
     it "should assign a dealer with a deck of cards" do
-      result = Blackjack.start(1).dealer
+      result = Blackjack.start(1,1).dealer
       expect(result).not_to be_nil
     end
   end
   context "initial card distribution" do
     
     it "should return the correct number of cards for dealing to all players" do
-      result = Blackjack.start(2).number_of_cards_for_inital_deal
+      result = Blackjack.start(2,1).number_of_cards_for_initial_deal
       expect(result).to eq 4
     end
     
     it "should receive cards from dealer" do
-      result = Blackjack.start(2).cards_for_first_deal
+      result = Blackjack.start(2,1).cards_for_first_deal
       expect(result).to have(4).items
     end
     
-    it "should distribute face down cards to players" do 
-      result = Blackjack.start(2).deal_down
+    it "should designate face down cards for players" do 
+      result = Blackjack.start(2,1).deal_down
       expect(result).to have(2).items
     end
     
-    it "should distribute face up cards to players" do 
-      result = Blackjack.start(2).deal_up
+    it "should designate face up cards for players" do 
+      result = Blackjack.start(2,1).deal_up
       expect(result).to have(2).items
     end
     
-    it "should empty the array" do
-      game = Blackjack.start(2)
+    it "should empty the initial_cards array" do
+      game = Blackjack.start(2,1)
       game.deal_up
       game.deal_down
-      result = game.intial_cards
+      result = game.initial_cards
       expect(result).to have(0).items
     end
     
     it "should create a hand for player" do
-      pending
+      game = Blackjack.start(2,1)
+      game.get_hand
+      result = game.player_cards
+      expect(result).to have(2).items
     end
     
-    it "should create a hand for house" do
-      pending
+    it "should create a hand for the house" do
+      game = Blackjack.start(2,1)
+      game.get_hand
+      result = game.house_cards
+      expect(result).to have(2).items
     end
+      
+    it "should leave an empty array for down_cards" do
+      game = Blackjack.start(2,1)
+      game.get_hand
+      result = game.down_cards
+      expect(result).to have(0).items      
+    end
+    
+    it "should leave an empty array for up_cards" do
+      game = Blackjack.start(2,1)
+      game.get_hand
+      result = game.up_cards
+      expect(result).to have(0).items      
+    end
+    
   end
   
   context "card value evaluation" do
