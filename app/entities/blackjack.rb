@@ -3,6 +3,7 @@ class Blackjack
   
   def self.start(player_count, user)
     new(player_count, user)
+    #get_hand
     #json_response = { blah }
   end
   
@@ -33,11 +34,11 @@ class Blackjack
     deal_up
     deal_down
     @player_cards = []
-    @player_cards = @down_cards.shift(1)
-    @player_cards.push(@up_cards.shift(1))
+    @player_cards << @down_cards.shift(1)
+    @player_cards << @up_cards.shift(1)
     @house_cards = []
-    @house_cards = @up_cards.shift(1)
-    @house_cards.push(@down_cards.shift(1))  
+    @house_cards << @up_cards.shift(1)
+    @house_cards << @down_cards.shift(1)
   end
   
   

@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 require_relative '../../../app/entities/dealer'
 require_relative '../../../app/entities/card_deck'
+require_relative '../../../app/entities/user'
 require_relative '../../../app/entities/blackjack'
 
 describe Blackjack do
