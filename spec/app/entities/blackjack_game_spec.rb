@@ -1,0 +1,204 @@
+require_relative '../spec_helper'
+require_relative '../../../app/entities/card_deck'
+require_relative '../../../app/entities/dealer'
+require_relative '../../../app/entities/card_deck'
+require_relative '../../../app/entities/user'
+require_relative '../../../app/entities/house'
+require_relative '../../../app/entities/artificial_player'
+require_relative '../../../app/entities/blackjack_game'
+
+describe BlackjackGame do
+  
+  context "validation" do
+    
+    it "assigns an id" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes)
+      expect(result.id).to eq 1
+    end
+  
+    it "is false with nil number of players" do
+      attributes = { number_of_players: nil, user: User.create }
+      result = BlackjackGame.start(attributes)
+      expect(result).to be nil
+    end
+    
+  end
+  
+  context "initialization" do
+    it "should return the correct number of players assigned" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes).number_of_players
+      expect(result).to eq 2
+    end
+    
+    it "should assign a dealer with a deck of cards" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes).dealer
+      expect(result).not_to be_nil
+    end
+    
+    it "should have a user" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes).user
+      expect(result).not_to be_nil
+    end
+    
+    it "should have a house" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes).house
+      expect(result).not_to be_nil
+    end
+    
+    it "should be able to create artificial players" do
+      pending
+    end
+  end
+  
+  context "initial card distribution" do
+    
+    it "should determine if artificial players are needed" do
+      pending
+    end
+    
+    it "should return the correct number of cards for dealing to all players" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes).number_of_cards_for_initial_deal
+      expect(result).to eq 4
+    end
+    
+    # it "should receive cards from dealer" do
+    #   attributes = { number_of_players: 2, user: User.create }
+    #   result = BlackjackGame.create(attributes).initial_cards
+    #   expect(result).to have(4).items
+    # end
+    # 
+    # it "should designate face down cards for players" do
+    #   attributes = { number_of_players: 2, user: User.create } 
+    #   result = BlackjackGame.start(attributes).deal_down
+    #   expect(result).to have(2).items
+    # end
+    # 
+    # it "should designate face up cards for players" do 
+    #   attributes = { number_of_players: 2, user: User.create }
+    #   result = BlackjackGame.start(attributes).deal_up
+    #   expect(result).to have(2).items
+    # end
+    # 
+    # it "should empty the initial_cards array" do
+    #   attributes = { number_of_players: 2, user: User.create }
+    #   game = BlackjackGame.start(attributes)
+    #   game.deal_up
+    #   game.deal_down
+    #   result = game.initial_cards
+    #   expect(result).to have(0).items
+    # end
+    
+    it "should assign down cards to user" do
+      attributes = { number_of_players: 2, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.user.hidden_cards
+      expect(result).to have(1).items
+    end
+    
+    it "should assign up cards to user" do
+      attributes = { number_of_players: 2, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.user.visible_cards
+      expect(result).to have(1).items
+    end
+    
+    it "should assign down cards to house" do
+      attributes = { number_of_players: 2, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.house.hidden_cards
+      expect(result).to have(1).items
+    end
+    
+    it "should assign up cards to house" do
+      attributes = { number_of_players: 2, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.house.visible_cards
+      expect(result).to have(1).items
+    end
+    
+    it "should assign down cards to artificial players" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.artificial_players.first.hidden_cards
+      expect(result).to have(1).items
+    end
+    
+    it "should assign up cards to artificial players" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.artificial_players.first.visible_cards
+      expect(result).to have(1).items
+    end
+      
+    it "should leave an empty array for initial cards" do
+      attributes = { number_of_players: 2, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.initial_cards
+      expect(result).to have(0).items      
+    end
+    
+  end
+  
+  context "card value evaluation" do
+  
+    it "should strip away unneeded suit info" do
+      pending
+    end
+  
+    it "should assign number value for number cards" do
+      pending
+    end
+    
+    it "should assign value of 10 for face cards" do
+      pending
+    end
+    
+    it "should assign value of 1 or 10 for ace" do
+      pending
+    end
+    
+    it "should assign integer values to all cards" do
+      pending
+    end
+  
+  end
+  
+  context "game play" do
+    
+    it "should know when to respond with hit option" do
+      pending
+    end
+    
+    it "should know when to respond with stand option" do
+      pending
+    end
+    
+    it "should know how to respond with split option" do
+      pending
+    end
+    
+    it "should know when player has won" do
+      pending
+    end
+    
+    it "should know when house has won" do
+      pending
+    end
+    
+    it "should know when artificial player has won" do
+      pending
+    end
+    
+  end
+
+  
+end
+
+  
+

@@ -6,6 +6,7 @@ gem 'mustache'
 gem 'data_mapper'
 gem 'pg'
 gem 'dm-postgres-adapter'
+gem 'nesty'
 
 group :development do
  gem 'thin'
