@@ -51,14 +51,19 @@ describe BlackjackGame do
     end
     
     it "should be able to create artificial players" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      result = BlackjackGame.start(attributes).house
+      expect(result).not_to be_nil
+      
     end
   end
   
   context "initial card distribution" do
     
     it "should determine if artificial players are needed" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      result = BlackjackGame.start(attributes).number_of_players - 2
+      expect(result).to be > 0
     end
     
     it "should return the correct number of cards for dealing to all players" do
@@ -66,13 +71,16 @@ describe BlackjackGame do
       result = BlackjackGame.start(attributes).number_of_cards_for_initial_deal
       expect(result).to eq 4
     end
-    
-    # it "should receive cards from dealer" do
-    #   attributes = { number_of_players: 2, user: User.create }
-    #   result = BlackjackGame.create(attributes).initial_cards
-    #   expect(result).to have(4).items
-    # end
-    # 
+       
+     #it "should distribute initial cards from dealer" do 
+     #  attributes = { number_of_players: 2, user: User.create }
+     #  result = BlackjackGame.start(attributes).initial_cards
+     #  expect(result).to have(0).items
+     #end
+     #to make the above test pass as written originally (with an expectation of 4 items), 
+     #lines 21 and 22 in BlackjackGame class must be commented out. Also, for this test to pass,
+     #the "start" method should be called as opposed to the "create" method.
+     
     # it "should designate face down cards for players" do
     #   attributes = { number_of_players: 2, user: User.create } 
     #   result = BlackjackGame.start(attributes).deal_down
