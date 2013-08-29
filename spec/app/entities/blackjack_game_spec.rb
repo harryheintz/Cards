@@ -6,6 +6,11 @@ require_relative '../../../app/entities/user'
 require_relative '../../../app/entities/house'
 require_relative '../../../app/entities/artificial_player'
 require_relative '../../../app/entities/blackjack_game'
+require_relative '../../../app/entities/cardfaces'
+require_relative '../../../app/entities/shared'
+
+
+
 
 describe BlackjackGame do
   
@@ -151,27 +156,51 @@ describe BlackjackGame do
       expect(result).to have(0).items      
     end
     
+    it "should create a playing hand for the user" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.user.hand
+      expect(result).to have(2).items
+    end
+    
+    it "should create a playing hand for the house" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.house.hand
+      expect(result).to have(2).items
+    end
+    
+    it "should create a playing hand for the artificial player(s)" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.artificial_players.first.hand
+      expect(result).to have(2).items
+    end  
+    
   end
   
   context "card value evaluation" do
   
     it "should strip away unneeded suit info" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.
+      expect(result).to have(1).items
     end
   
-    it "should assign number value for number cards" do
+    it "should evaluate number value for number cards" do
       pending
     end
     
-    it "should assign value of 10 for face cards" do
+    it "should evaluate value of 10 for face cards" do
       pending
     end
     
-    it "should assign value of 1 or 10 for ace" do
+    it "should evaluate value of 1 or 10 for ace" do
       pending
     end
     
-    it "should assign integer values to all cards" do
+    it "should evaluate integer values to all cards" do
       pending
     end
   

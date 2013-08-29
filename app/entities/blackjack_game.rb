@@ -2,7 +2,7 @@ require 'dm-validations'
 
 class BlackjackGame
   include DataMapper::Resource
-  property :id,                   Serial
+  property :id,                   Serial #blackjack_game.id
   property :number_of_players,    Integer, :required => true
   belongs_to :user
   has 1, :dealer
@@ -38,15 +38,6 @@ class BlackjackGame
     @initial_cards = dealer.deal(number_of_cards_for_initial_deal)
   end
   
-  def stripper
-    #takes the suit info away returns a clean array --> "initial_cards"
-  end
-  
-  def assigner
-    #assign the values to the deck and returns "@appraised_cards"
-  end
-  
-  
   def dealt_card
     @initial_cards.shift #should be "@appraised_cards.shift" i feel we should be playing with appraised cards
   end
@@ -75,4 +66,15 @@ class BlackjackGame
     save
   end
   
+  
+  
+  
+  def calculator
+    #assign the values to the deck and returns "@appraised_cards"
+  end
+  
 end
+  
+
+  
+

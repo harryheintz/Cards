@@ -1,5 +1,7 @@
+require_relative "./cardfaces"
+
 class Dealer
-  include DataMapper::Resource
+  include DataMapper::Resource, CardFaces
   property :id,        Serial
   property :deck,      Json
   belongs_to :blackjack_game, :required => false

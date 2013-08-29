@@ -5,6 +5,8 @@ require_relative '../../../app/entities/user'
 require_relative '../../../app/entities/dealer'
 require_relative '../../../app/entities/card_deck'
 require_relative '../../../app/entities/house'
+require_relative '../../../app/entities/cardfaces'
+
 
 
 describe ArtificialPlayer do
