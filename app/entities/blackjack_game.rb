@@ -66,9 +66,6 @@ class BlackjackGame
     save
   end
   
-  
-  
-  
   def calculator
     #assign the values to the deck and returns "@appraised_cards"
   end

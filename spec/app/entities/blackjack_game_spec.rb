@@ -184,8 +184,8 @@ describe BlackjackGame do
     it "should strip away unneeded suit info" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.
-      expect(result).to have(1).items
+      result = game.user.stripper
+      expect(result.each).not_to include(/Hearts,Clubs,Spades,Diamonds/)
     end
   
     it "should evaluate number value for number cards" do

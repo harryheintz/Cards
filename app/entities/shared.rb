@@ -8,11 +8,14 @@ module Shared
   end
   
   def stripper
-    cards = self.hand
-    strip =  /\d|[JQKA]/
-    cards.each do |c|
-      c =~ strip
-    end
+    @stripped = self.hand
+    a = @stripped.to_s
+    @stripped= a.scan(/\d|[JQKA]/)
+    @stripped
     #cards.map{|c| c =~ /\d|[JQKA]/}      
   end 
+  
+  def hit
+    
+  end
 end
