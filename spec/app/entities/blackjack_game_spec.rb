@@ -189,11 +189,11 @@ describe BlackjackGame do
     end
   
     it "should evaluate number value for number cards" do
-      pending
-    end
-    
-    it "should evaluate value of 10 for face cards" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.user.stripper
+      expect(result.each).to be_integer
+      
     end
     
     it "should evaluate value of 1 or 10 for ace" do
