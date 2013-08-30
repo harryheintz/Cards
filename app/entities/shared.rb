@@ -15,7 +15,7 @@ module Shared
     c = b.gsub(/[SpadesHeartsDiamondsClubs\W]/, "")
     d = c.gsub(/[JQKA]/, "10" )
     @stripped = d.gsub(/[z]/, " ")
-    @valued_cards = @stripped.gsub(/\d/) { |x| x.to_i}
+    @valued_cards = @stripped.split.map { |x| x.to_i }
     @valued_cards
   end 
   

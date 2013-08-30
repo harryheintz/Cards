@@ -6,6 +6,6 @@ class House
   property :visible_cards,    Json  
   belongs_to :blackjack_game, :required => false #house.blackjack_game_id
   
-  attr_accessor :stripped
+  attr_accessor :stripped, :valued_cards
    
 end

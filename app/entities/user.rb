@@ -6,7 +6,7 @@ class User
   property :visible_cards,    Json
   has n, :blackjack_games
   
-  attr_accessor :stripped
+  attr_accessor :stripped, :valued_cards
   
   
 end

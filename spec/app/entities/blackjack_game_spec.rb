@@ -191,8 +191,9 @@ describe BlackjackGame do
     it "should evaluate number value for number cards" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.user.stripper
-      expect(result.each).to be_integer
+      game.user.stripper
+      result = game.user.valued_cards
+      expect(result.first).should be < 11 #SHADY!!
       
     end
     

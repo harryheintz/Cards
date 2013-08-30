@@ -7,6 +7,6 @@ class ArtificialPlayer
   property :visible_cards,    Json
   belongs_to :blackjack_game, :required => false
   
-   attr_accessor :stripped
+   attr_accessor :stripped, :valued_cards
   
 end
