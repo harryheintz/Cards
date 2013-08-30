@@ -16,6 +16,14 @@ class Card
   def self.visible
     all(:hidden => false)
   end
+  
+  def self.excluding_aces
+    all(:name.not => "A")
+  end
+  
+  def self.aces
+    all(:name => "A")
+  end
 
   def self.clubs
     all(:suit => "Clubs")

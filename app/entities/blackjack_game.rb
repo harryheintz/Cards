@@ -38,36 +38,53 @@ class BlackjackGame
     @initial_cards = dealer.deal(number_of_cards_for_initial_deal)
   end
   
-  def create_inital_cards
-    collection = []
-    @initial_cards.each do |initial_card|
-      value = assign_value(initial_card[:name])
-      attributes = { :name => initial_card[:name], :suit => initial_card[:suit], :value => value }
-      card = Card.create(attributes)
-      collection << card
-    end
-  end
-  
-
-  def deal_down
-    create_inital_cards.shift
-    user.visible_cards << dealt_card
-    house.visible_cards << dealt_card
+  def first_deal
+    associate_down_card_for(user)
+    associate_down_card_for(house)
     artificial_players.each do |ap|
-      ap.visible_cards = []
-      ap.visible_cards << dealt_card
+      associate_down_card_for(ap)
     end
-    save
+    associate_up_card_for(user)
+    associate_up_card_for(house)
+    artificial_players.each do |ap|
+      associate_up_card_for(ap)
+    end
   end
   
-  def assign_value(string)
+  def associate_up_card_for(player)
+    card = create_card(@initial_cards.shift)
+    player.cards << card
+  end
+  
+  def associate_down_card_for(player)
+    card = create_card(@initial_cards.shift, true)
+    player.cards << card
+  end
+  
+  def create_card(card_hash, hidden=false)
+    value = calculate_card_value(card_hash[:name])
+    attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value }
+    card = Card.create(attributes)
+  end
+  
+  def calculate_hand(player)
+    total = 0
+    player.cards.excluding_aces.each do |card|
+      total += card.value
+    end
+    player.cards.aces.each do |ace|
+      total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
+    end
+  end
+  
+  def evaluate_ace_score(total)
+    11 #need to add logic here for when it is 1 and when 11
+  end
+  
+  def calculate_card_value(string)
     string.gsub!(/[JQK]/, "10" )
     string.gsub!(/[A]/, "11")
     string.to_i
-  end
-  
-  def calculator
-    #assign the values to the deck and returns "@appraised_cards"
   end
   
 end
