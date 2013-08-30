@@ -9,14 +9,14 @@ module Shared
   end
   
   def stripper
-    @stripped = self.hand
-    a = @stripped.to_s
+    stripped = self.hand
+    a = stripped.to_s
     b = a.gsub(/[,]/, "z") 
     c = b.gsub(/[SpadesHeartsDiamondsClubs\W]/, "")
     d = c.gsub(/[JQKA]/, "10" )
-    @stripped = d.gsub(/[z]/, " ")
-    @valued_cards = @stripped.split.map { |x| x.to_i }
-    @valued_cards
+    stripped = d.gsub(/[z]/, " ")
+    valued_cards = stripped.split.map { |x| x.to_i }
+    valued_cards
   end 
   
   def hit
