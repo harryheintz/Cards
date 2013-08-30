@@ -14,7 +14,7 @@ class CardDeck
     
     SUITS.each do |suit|
       VALUES.each do |value|
-        card = value + suit
+        card = { :name => value, :suit => suit }
         deck_array << card
       end
     end

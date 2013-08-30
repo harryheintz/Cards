@@ -38,32 +38,32 @@ class BlackjackGame
     @initial_cards = dealer.deal(number_of_cards_for_initial_deal)
   end
   
-  def dealt_card
-    @initial_cards.shift #should be "@appraised_cards.shift" i feel we should be playing with appraised cards
-  end
-  
-  def deal_down
-    user.hidden_cards = []
-    user.hidden_cards << dealt_card
-    house.hidden_cards = []
-    house.hidden_cards << dealt_card
-    artificial_players.each do |ap|
-      ap.hidden_cards = []
-      ap.hidden_cards << dealt_card
+  def create_inital_cards
+    collection = []
+    @initial_cards.each do |initial_card|
+      value = assign_value(initial_card[:name])
+      attributes = { :name => initial_card[:name], :suit => initial_card[:suit], :value => value }
+      card = Card.create(attributes)
+      collection << card
     end
-    save
   end
   
-  def deal_up
-    user.visible_cards = []
+
+  def deal_down
+    create_inital_cards.shift
     user.visible_cards << dealt_card
-    house.visible_cards = []
     house.visible_cards << dealt_card
     artificial_players.each do |ap|
       ap.visible_cards = []
       ap.visible_cards << dealt_card
     end
     save
+  end
+  
+  def assign_value(string)
+    string.gsub!(/[JQK]/, "10" )
+    string.gsub!(/[A]/, "11")
+    string.to_i
   end
   
   def calculator
