@@ -193,11 +193,11 @@ describe BlackjackGame do
       game = BlackjackGame.start(attributes)
       game.user.stripper
       result = game.user.valued_cards
-      expect(result.first).should be < 11 #SHADY!!
+      expect(result.first).should be <= 11 #SHADY!!
       
     end
     
-    it "should evaluate value of 1 or 10 for ace" do
+    it "should evaluate value of 1 or 11 for ace" do
       pending
     end
     
