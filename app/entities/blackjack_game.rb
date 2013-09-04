@@ -18,8 +18,7 @@ class BlackjackGame
     game.create_artificial_players unless game.number_of_players < 2
     game.save
     game.cards_for_first_deal
-    game.deal_down
-    game.deal_up
+    game.first_deal
     game
   end
   

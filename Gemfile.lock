@@ -15,7 +15,7 @@ GEM
     autotest-fsevent (0.2.8)
       sys-uname
     autotest-growl (0.2.16)
-    bcrypt-ruby (3.1.1)
+    bcrypt-ruby (3.1.2)
     coderay (1.0.9)
     daemons (1.1.9)
     data_mapper (1.2.0)
