@@ -110,42 +110,42 @@ describe BlackjackGame do
     it "should assign down cards to user" do
       attributes = { number_of_players: 2, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.user.hidden_cards
+      result = game.user.cards.hidden
       expect(result).to have(1).items
     end
     
     it "should assign up cards to user" do
       attributes = { number_of_players: 2, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.user.visible_cards
+      result = game.user.cards.visible
       expect(result).to have(1).items
     end
     
     it "should assign down cards to house" do
       attributes = { number_of_players: 2, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.house.hidden_cards
+      result = game.house.cards.hidden
       expect(result).to have(1).items
     end
     
     it "should assign up cards to house" do
       attributes = { number_of_players: 2, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.house.visible_cards
+      result = game.house.cards.visible
       expect(result).to have(1).items
     end
     
     it "should assign down cards to artificial players" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.artificial_players.first.hidden_cards
+      result = game.artificial_players.first.cards.hidden
       expect(result).to have(1).items
     end
     
     it "should assign up cards to artificial players" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.artificial_players.first.visible_cards
+      result = game.artificial_players.first.cards.visible
       expect(result).to have(1).items
     end
       
@@ -159,21 +159,21 @@ describe BlackjackGame do
     it "should create a playing hand for the user" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.user.hand
+      result = game.user.cards
       expect(result).to have(2).items
     end
     
     it "should create a playing hand for the house" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.house.hand
+      result = game.house.cards
       expect(result).to have(2).items
     end
     
     it "should create a playing hand for the artificial player(s)" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.artificial_players.first.hand
+      result = game.artificial_players.first.cards
       expect(result).to have(2).items
     end  
     
@@ -184,14 +184,13 @@ describe BlackjackGame do
     it "should strip away unneeded suit info" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      result = game.user.stripper
+      result = game.user.cards
       expect(result.each).not_to include(/Hearts,Clubs,Spades,Diamonds/)
     end
   
     it "should evaluate number value for number cards" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      game.user.stripper
       result = game.user.valued_cards
       expect(result.first).should be <= 11 #SHADY!!
       
