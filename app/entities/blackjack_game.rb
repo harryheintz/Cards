@@ -25,8 +25,9 @@ class BlackjackGame
   def create_artificial_players
     ap = number_of_players - 2
     ap.downto(1) do |n|
-      artificial_players << ArtificialPlayer.create
+      self.artificial_players << ArtificialPlayer.create
     end
+    self.save
   end
   
   def number_of_cards_for_initial_deal
@@ -53,16 +54,18 @@ class BlackjackGame
   def associate_up_card_for(player)
     card = create_card(@initial_cards.shift)
     player.cards << card
+    player.save
   end
   
   def associate_down_card_for(player)
     card = create_card(@initial_cards.shift, true)
     player.cards << card
+    player.save
   end
   
   def create_card(card_hash, hidden=false)
     value = calculate_card_value(card_hash[:name])
-    attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value }
+    attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value, :hidden => hidden}
     card = Card.create(attributes)
   end
   

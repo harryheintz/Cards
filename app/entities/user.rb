@@ -2,7 +2,7 @@ require_relative "./shared"
 class User
   include DataMapper::Resource, Shared
   property :id,               Serial
-  has n, :blackjack_games  
-  has n, :cards 
-  
+  belongs_to :blackjack_game, :required => false
+  has n, :cards
+
 end

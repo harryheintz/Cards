@@ -6,6 +6,7 @@ require_relative '../../../app/entities/dealer'
 require_relative '../../../app/entities/card_deck'
 require_relative '../../../app/entities/house'
 require_relative '../../../app/entities/cardfaces'
+require_relative '../../../app/entities/card'
 
 
 
@@ -23,15 +24,17 @@ describe ArtificialPlayer do
   context "playing a card game" do
     
     it "should hold hidden cards" do
-      attributes = { hidden_cards: ["AClubs", "9Diamonds"]}
-      result = ArtificialPlayer.create(attributes)
-      expect(result.hidden_cards).to match_array(["AClubs", "9Diamonds"])
+      attributes = { number_of_players: 3, user: User.create }
+      b = BlackjackGame.start(attributes)
+      result = b.artificial_players.first
+      expect(result.cards.hidden).to have(1).item
     end
     
     it "should hold visible cards" do
-      attributes = { visible_cards: ["2Hearts", "JClubs"]}
-      result = ArtificialPlayer.create(attributes)
-      expect(result.visible_cards).to match_array(["2Hearts", "JClubs"])
+      attributes = { number_of_players: 3, user: User.create }
+      b = BlackjackGame.start(attributes)
+      result = b.artificial_players.first
+      expect(result.cards.visible).to have(1).item
       
     end
     
