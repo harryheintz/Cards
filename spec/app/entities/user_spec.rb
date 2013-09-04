@@ -23,17 +23,20 @@ describe User do
   context "playing a card game" do
     
     it "should hold hidden cards" do
-      attributes = { hidden_cards: ["AClubs", "9Diamonds"]}
-      result = User.create(attributes)
-      expect(result.hidden_cards).to match_array(["AClubs", "9Diamonds"])
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.user.cards.first.hidden
+      expect(result).to be_true 
     end
     
+    
     it "should hold visible cards" do
-      attributes = { visible_cards: ["2Hearts", "JClubs"]}
-      result = User.create(attributes)
-      expect(result.visible_cards).to match_array(["2Hearts", "JClubs"])
-      
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.user.cards.last.hidden
+      expect(result).to be_false 
     end
+    
     
   end
   

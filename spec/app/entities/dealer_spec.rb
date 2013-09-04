@@ -40,11 +40,6 @@ describe Dealer do
       expect(result.deal(2).count).to eq 2
     end
     
-    it "should deal the appropriate number of cards" do
-      result = Dealer.create
-      dealt_cards = result.deal(3)
-      expect(result.deck).to_not include(dealt_cards[0], dealt_cards[1])
-    end
     
   end
 end

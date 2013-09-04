@@ -23,15 +23,17 @@ describe House do
   context "playing a card game" do
     
     it "should hold hidden cards" do
-      attributes = { :name => "2", :suit => "Clubs", :value => 2, :hidden => true}
-      result = House.create(attributes)
-      expect(result.cards.hidden).to have(1).item 
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.house.cards.first.hidden
+      expect(result).to be_true 
     end
     
     it "should hold visible cards" do
-      attributes = { visible_cards: ["2Hearts", "JClubs"]}
-      result = House.create(attributes)
-      expect(result.visible_cards).to match_array(["2Hearts", "JClubs"])
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = game.house.cards.last.hidden
+      expect(result).to be_false 
     end
     
   end
