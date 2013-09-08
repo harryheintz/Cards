@@ -76,7 +76,7 @@ class BlackjackGame
   
   def calculate_hand(player)
     total = 0
-      player.cards.excluding_aces.each do |card|
+      player.cards.each do |card|
       total += card.value
     end
 
@@ -88,6 +88,14 @@ class BlackjackGame
   
   def evaluate_ace_score(total)
     11 #need to add logic here for when it is 1 and when 11
+    
+    
+    #if the calculated score returns a total greater than 10,
+    #evaluate the card values to determine if an 11 is present.
+    #if the 11 is present,
+    #gsub! the 11 to a 1.
+    #if not
+    #return the new total.
   end
   
   def calculate_card_value(string)
