@@ -79,9 +79,11 @@ class BlackjackGame
       player.cards.excluding_aces.each do |card|
       total += card.value
     end
-    #player.cards.aces.each do |ace|
-    #  total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
-    #end
+
+    player.cards.aces.each do |ace|
+      total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
+    end
+    total
   end
   
   def evaluate_ace_score(total)
