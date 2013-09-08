@@ -49,6 +49,11 @@ class BlackjackGame
     artificial_players.each do |ap|
       associate_up_card_for(ap)
     end
+    #calculate_hand(user)
+    #calculate_hand(house)
+    #artificial_players.each do |ap|
+    #  calculate_hand(ap)
+    #end
   end
   
   def associate_up_card_for(player)
@@ -71,12 +76,12 @@ class BlackjackGame
   
   def calculate_hand(player)
     total = 0
-    player.cards.excluding_aces.each do |card|
+      player.cards.excluding_aces.each do |card|
       total += card.value
     end
-    player.cards.aces.each do |ace|
-      total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
-    end
+    #player.cards.aces.each do |ace|
+    #  total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
+    #end
   end
   
   def evaluate_ace_score(total)
