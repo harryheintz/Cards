@@ -87,7 +87,11 @@ class BlackjackGame
   end
   
   def evaluate_ace_score(total)
-    11 #need to add logic here for when it is 1 and when 11
+    if total > 10
+        1 
+     else
+        11
+      end
     
     
     #if the calculated score returns a total greater than 10,
@@ -100,7 +104,7 @@ class BlackjackGame
   
   def calculate_card_value(string)
     string.gsub!(/[JQK]/, "10" )
-    string.gsub!(/[A]/, "11")
+    string.gsub(/[A]/, "11")
     string.to_i
   end
   

@@ -197,7 +197,12 @@ describe BlackjackGame do
     end
     
     it "should evaluate value of 1 or 11 for ace" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      new_hash =  { :name => "A", :value => 0}
+      game.user.cards.update(new_hash)
+      result = game.calculate_hand(User)
+      expect(result).to eq(12)
     end
     
     it "should evaluate integer values to all cards" do
