@@ -90,6 +90,10 @@ class BlackjackGame
     string.to_i
   end
   
+  def hit
+    
+  end
+  
 end
   
 
