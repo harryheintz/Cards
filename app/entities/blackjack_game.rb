@@ -82,24 +82,11 @@ class BlackjackGame
   end
   
   def evaluate_ace_score(total)
-    if total > 10
-        1 
-     else
-        11
-      end
-    
-    
-    #if the calculated score returns a total greater than 10,
-    #evaluate the card values to determine if an 11 is present.
-    #if the 11 is present,
-    #gsub! the 11 to a 1.
-    #if not
-    #return the new total.
+    total > 10 ? 1 : 11
   end
   
   def calculate_card_value(string)
     string.gsub!(/[JQK]/, "10" )
-    string.gsub(/[A]/, "11")
     string.to_i
   end
   
