@@ -49,11 +49,6 @@ class BlackjackGame
     artificial_players.each do |ap|
       associate_up_card_for(ap)
     end
-    #calculate_hand(user)
-    #calculate_hand(house)
-    #artificial_players.each do |ap|
-    #  calculate_hand(ap)
-    #end
   end
   
   def associate_up_card_for(player)

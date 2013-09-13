@@ -201,7 +201,7 @@ describe BlackjackGame do
       game = BlackjackGame.start(attributes)
       new_hash =  { :name => "A", :value => 0}
       game.user.cards.update(new_hash)
-      result = game.calculate_hand(User)
+      result = game.calculate_hand(game.user)
       expect(result).to eq(12)
     end
     
