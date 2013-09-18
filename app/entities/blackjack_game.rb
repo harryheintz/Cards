@@ -8,7 +8,7 @@ class BlackjackGame
   has 1, :dealer
   has 1, :house
   has n, :artificial_players
-  attr_accessor :initial_cards
+  attr_accessor :initial_cards, :hit, :split, :stand
   
   def self.start(attributes)
     game = create(attributes)
@@ -20,6 +20,24 @@ class BlackjackGame
     game.cards_for_first_deal
     game.first_deal
     game
+  end
+  
+  def self.play(attributes)
+    game = BlackjackGame.get(attributes[:id])
+    game.process_user_action(self.hit) if attributes[:hit] == true # pry > attributes = { :hit => true }
+    game.process_user_action(stand) if attributes[:stand] == true
+    game.process_user_action(split) if attributes[:split] == true
+    game
+  end
+  
+  def process_user_action(action)
+    action
+    #process_house_action(self.house.choice)
+    #artificial_players.each do |ap|
+     # ap.make_choice
+      #process the choice
+      #save the cards
+      #end
   end
   
   def create_artificial_players
@@ -90,7 +108,7 @@ class BlackjackGame
     string.to_i
   end
   
-  def hit
+  def self.hit
     
   end
   

@@ -76,36 +76,6 @@ describe BlackjackGame do
       result = BlackjackGame.start(attributes).number_of_cards_for_initial_deal
       expect(result).to eq 4
     end
-       
-     #it "should distribute initial cards from dealer" do 
-     #  attributes = { number_of_players: 2, user: User.create }
-     #  result = BlackjackGame.start(attributes).initial_cards
-     #  expect(result).to have(0).items
-     #end
-     #to make the above test pass as written originally (with an expectation of 4 items), 
-     #lines 21 and 22 in BlackjackGame class must be commented out. Also, for this test to pass,
-     #the "start" method should be called as opposed to the "create" method.
-     
-    # it "should designate face down cards for players" do
-    #   attributes = { number_of_players: 2, user: User.create } 
-    #   result = BlackjackGame.start(attributes).deal_down
-    #   expect(result).to have(2).items
-    # end
-    # 
-    # it "should designate face up cards for players" do 
-    #   attributes = { number_of_players: 2, user: User.create }
-    #   result = BlackjackGame.start(attributes).deal_up
-    #   expect(result).to have(2).items
-    # end
-    # 
-    # it "should empty the initial_cards array" do
-    #   attributes = { number_of_players: 2, user: User.create }
-    #   game = BlackjackGame.start(attributes)
-    #   game.deal_up
-    #   game.deal_down
-    #   result = game.initial_cards
-    #   expect(result).to have(0).items
-    # end
     
     it "should assign down cards to user" do
       attributes = { number_of_players: 2, user: User.create }
@@ -205,16 +175,25 @@ describe BlackjackGame do
       expect(result).to eq(12)
     end
     
-    it "should evaluate integer values to all cards" do
-      pending
-    end
+   
   
   end
   
   context "game play" do
     
+    it "should retrieve a specific game instance" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      result = BlackjackGame.play(game.user)
+      expect(result[:id]).to eq(game.user[:id])
+      end
+    
     it "should know when to respond with hit option" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      attributes = {:id => game.user[:id], :hit => true, :stand => false, :split => false}
+      result = BlackjackGame.play(attributes)
+      expect(result[:hit]).to be_true
     end
     
     it "should know when to respond with stand option" do

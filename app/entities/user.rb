@@ -4,5 +4,11 @@ class User
   property :id,               Serial
   belongs_to :blackjack_game, :required => false
   has n, :cards
-
+  
+  attr_accessor  :hit, :stand, :split
+  
+  
+  def hit
+    
+  end
 end
