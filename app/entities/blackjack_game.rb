@@ -24,9 +24,9 @@ class BlackjackGame
   
   def self.play(attributes)
     game = BlackjackGame.get(attributes[:id])
-    game.process_user_action(self.hit) if attributes[:hit] == true # pry > attributes = { :hit => true }
-    game.process_user_action(stand) if attributes[:stand] == true
-    game.process_user_action(split) if attributes[:split] == true
+    game.process_user_action(game.hit(game.user)) if attributes[:hit] == true # pry > attributes = { :hit => true }
+    #game.process_user_action(stand) if attributes[:stand] == true
+    #game.process_user_action(split) if attributes[:split] == true
     game
   end
   
@@ -54,6 +54,10 @@ class BlackjackGame
   
   def cards_for_first_deal
     @initial_cards = dealer.deal(number_of_cards_for_initial_deal)
+  end
+  
+  def get_dealer_cards(count)
+    @card_request = dealer.deal(count)
   end
   
   def first_deal
@@ -108,8 +112,11 @@ class BlackjackGame
     string.to_i
   end
   
-  def self.hit
-    
+  def hit(player)
+    game.get_dealer_cards(1)
+    card = create_card(@card_request.shift)
+    player.cards << card
+    player.save
   end
   
 end

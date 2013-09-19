@@ -193,7 +193,7 @@ describe BlackjackGame do
       game = BlackjackGame.start(attributes)
       attributes = {:id => game.user[:id], :hit => true, :stand => false, :split => false}
       result = BlackjackGame.play(attributes)
-      expect(result[:hit]).to be_true
+      expect(result.user.cards).to have(3).items
     end
     
     it "should know when to respond with stand option" do
