@@ -31,6 +31,12 @@ describe Dealer do
       expect(result.deck).not_to eq(deck)
     end
     
+    it "should save deck" do
+      deck = CardDeck.receive
+      Dealer.create
+      result = Dealer.get(1)
+      expect(result.deck).not_to be_nil
+    end
   end
   
   context "the dealer" do

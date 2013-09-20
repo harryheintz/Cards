@@ -22,22 +22,42 @@ class BlackjackGame
     game
   end
   
-  def self.play(attributes)
-    game = BlackjackGame.get(attributes[:id])
-    game.process_user_action(game.hit(game.user)) if attributes[:hit] == true # pry > attributes = { :hit => true }
-    #game.process_user_action(stand) if attributes[:stand] == true
-    #game.process_user_action(split) if attributes[:split] == true
+  def self.play(options)
+    game = BlackjackGame.get(options[:id])
+    game.process_user_hit if options[:hit] == true # pry > attributes = { :hit => true }
+    #game.process_user_stand if attributes[:stand] == true
+    #game.process_user_split if attributes[:split] == true
     game
   end
   
-  def process_user_action(action)
-    action
+  def process_user_hit
     #process_house_action(self.house.choice)
+    hit(user)
+    process_other_players
+  end
+  
+  def process_user_stand
+    #process_house_action(self.house.choice)
+    process_other_players
+  end
+  
+  def process_user_split
+    #process_house_action(self.house.choice)
+    process_other_players
+  end
+  
+  def process_other_players
     #artificial_players.each do |ap|
      # ap.make_choice
       #process the choice
       #save the cards
       #end
+  end
+  
+  def hit(player)
+    card = create_card(get_dealer_cards(1).shift)
+    player.cards << card
+    player.save
   end
   
   def create_artificial_players
@@ -57,7 +77,7 @@ class BlackjackGame
   end
   
   def get_dealer_cards(count)
-    @card_request = dealer.deal(count)
+    dealer.deal(count)
   end
   
   def first_deal
@@ -110,13 +130,6 @@ class BlackjackGame
   def calculate_card_value(string)
     string.gsub!(/[JQK]/, "10" )
     string.to_i
-  end
-  
-  def hit(player)
-    game.get_dealer_cards(1)
-    card = create_card(@card_request.shift)
-    player.cards << card
-    player.save
   end
   
 end

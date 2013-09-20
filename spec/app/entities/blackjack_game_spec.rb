@@ -180,19 +180,17 @@ describe BlackjackGame do
   end
   
   context "game play" do
+    it "should retrieve cards from deal" do
+      attributes = { number_of_players: 2, user: User.create }
+      result = BlackjackGame.start(attributes).get_dealer_cards(1)
+      expect(result).to have(1).item
+    end
     
-    it "should retrieve a specific game instance" do
+    it "should respond to hit option for user" do
       attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
-      result = BlackjackGame.play(game.user)
-      expect(result[:id]).to eq(game.user[:id])
-      end
-    
-    it "should know when to respond with hit option" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
-      attributes = {:id => game.user[:id], :hit => true, :stand => false, :split => false}
-      result = BlackjackGame.play(attributes)
+      saved_game = BlackjackGame.start(attributes)
+      options = {:id => saved_game.id, :hit => true, :stand => false, :split => false}
+      result = BlackjackGame.play(options)
       expect(result.user.cards).to have(3).items
     end
     
