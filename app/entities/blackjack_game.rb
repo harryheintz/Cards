@@ -1,4 +1,5 @@
 require 'dm-validations'
+require 'json'
 
 class BlackjackGame
   include DataMapper::Resource
@@ -55,7 +56,7 @@ class BlackjackGame
   end
   
   def hit(player)
-    card = create_card(get_dealer_cards(1).shift)
+    card = create_card(get_dealer_cards(1))
     player.cards << card
     player.save
   end
@@ -77,7 +78,9 @@ class BlackjackGame
   end
   
   def get_dealer_cards(count)
-    dealer.deal(count)
+    hash = dealer.deal(count).shift
+    hash = hash.inject({}){|card,(a,b)| card[a.to_sym] = b; card}
+    hash
   end
   
   def first_deal

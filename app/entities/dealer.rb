@@ -1,5 +1,4 @@
 require_relative "./cardfaces"
-require 'json'
 
 class Dealer
   include DataMapper::Resource, CardFaces

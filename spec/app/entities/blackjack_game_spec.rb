@@ -183,7 +183,7 @@ describe BlackjackGame do
     it "should retrieve cards from deal" do
       attributes = { number_of_players: 2, user: User.create }
       result = BlackjackGame.start(attributes).get_dealer_cards(1)
-      expect(result).to have(1).item
+      expect(result.keys).to eq([:name, :suit])
     end
     
     it "should respond to hit option for user" do
