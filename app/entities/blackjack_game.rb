@@ -26,7 +26,7 @@ class BlackjackGame
   def self.play(options)
     game = BlackjackGame.get(options[:id])
     game.process_user_hit if options[:hit] == true # pry > attributes = { :hit => true }
-    #game.process_user_stand if attributes[:stand] == true
+    game.process_user_stand if options[:stand] == true
     #game.process_user_split if attributes[:split] == true
     game
   end
@@ -48,6 +48,7 @@ class BlackjackGame
   end
   
   def process_other_players
+    
     #artificial_players.each do |ap|
      # ap.make_choice
       #process the choice
@@ -123,11 +124,36 @@ class BlackjackGame
     player.cards.aces.each do |ace|
       total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
     end
+    evaluate_score(total)
     total
   end
   
   def evaluate_ace_score(total)
     total > 10 ? 1 : 11
+  end
+  
+  def twenty_one?(total)
+    total == 21 ? victory : busted?(total)    
+  end
+  
+  def evaluate_score(total)
+     twenty_one?(total) 
+  end
+  
+  def busted?(total)
+    total > 21 ? defeat : "Continue"
+  end
+  
+  def victory
+    "Winner"
+  end
+  
+  def defeat
+    "Defeat"
+  end
+  
+  def continue
+    "true"
   end
   
   def calculate_card_value(string)

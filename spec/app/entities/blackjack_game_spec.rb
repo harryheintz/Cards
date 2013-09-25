@@ -175,8 +175,6 @@ describe BlackjackGame do
       expect(result).to eq(12)
     end
     
-   
-  
   end
   
   context "game play" do
@@ -195,15 +193,39 @@ describe BlackjackGame do
     end
     
     it "should know when to respond with stand option" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      saved_game = BlackjackGame.start(attributes)
+      options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
+      result = BlackjackGame.play(options)
+      expect(result.user.cards).to have(2).items
     end
     
     it "should know how to respond with split option" do
       pending
     end
     
+    it "should evaluate Black Jack" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      total = 21
+      result = game.evaluate_score(total)
+      expect(result).to eq "Winner"
+    end
+    
     it "should know when player has won" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      total = 21
+      result = game.evaluate_score(total)
+      expect(result).to eq "Winner"
+    end
+    
+    it "should know if the hand has busted" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      total = 22
+      result = game.evaluate_score(total)
+      expect(result).to eq "Defeat"
     end
     
     it "should know when house has won" do
