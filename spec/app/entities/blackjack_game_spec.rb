@@ -245,6 +245,19 @@ describe BlackjackGame do
       expect(result).to eq "Defeat"
     end
     
+    it "should know if the hand has not busted, but not won either" do
+      #pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      game.hit(game.user)
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>10)
+      game.user.cards.fetch(2).update(:value=>0)
+      game.user.cards.update(:name=>"test")
+      result = game.evaluate_score(game.user)
+      expect(result).to eq "Play on, Bitch!"
+    end
+    
     it "should know when house has won" do
       pending
     end

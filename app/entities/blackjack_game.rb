@@ -167,7 +167,7 @@ class BlackjackGame
   end
   
   def continue
-    "true"
+    "Play on, Bitch!"
   end
   
   def calculate_card_value(string)
