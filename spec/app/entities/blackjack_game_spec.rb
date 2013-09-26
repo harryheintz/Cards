@@ -207,24 +207,41 @@ describe BlackjackGame do
     it "should evaluate Black Jack" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      total = 21
-      result = game.evaluate_score(total)
-      expect(result).to eq "Winner"
+      hash_one = {:value => 10}
+      hash_two = {:value => 11}
+      new_hash = {:name => "test"}
+      game.user.cards.update(new_hash)
+      game.user.cards.first.update(hash_one)
+      game.user.cards.last.update(hash_two)
+      result = game.evaluate_score(game.user)
+      expect(result).to eq "Black Jack!"
     end
     
     it "should know when player has won" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      total = 21
-      result = game.evaluate_score(total)
+      #hash_one = {:value => 10}
+      #hash_two = {:value => 10}
+      #hash_three = {:value => 1}
+      #new_hash = {:name => "test"}
+      game.hit(game.user)
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>10)
+      game.user.cards.fetch(2).update(:value=>1)
+      game.user.cards.update(:name=>"test")
+      result = game.evaluate_score(game.user)
       expect(result).to eq "Winner"
     end
     
     it "should know if the hand has busted" do
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
-      total = 22
-      result = game.evaluate_score(total)
+      game.hit(game.user)
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>10)
+      game.user.cards.fetch(2).update(:value=>10)
+      game.user.cards.update(:name=>"test")
+      result = game.evaluate_score(game.user)
       expect(result).to eq "Defeat"
     end
     

@@ -124,8 +124,9 @@ class BlackjackGame
     player.cards.aces.each do |ace|
       total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
     end
-    evaluate_score(total)
     total
+   # evaluate_score(total)
+    
   end
   
   def evaluate_ace_score(total)
@@ -133,15 +134,28 @@ class BlackjackGame
   end
   
   def twenty_one?(total)
-    total == 21 ? victory : busted?(total)    
+    if total == 21 && user.cards.count == 2 
+       blackjack_win 
+     elsif
+    total == 21 && user.cards.count >= 3 #this will eventually compare house.cards total and the greater total will return victory
+     victory
+   else
+     busted?(total)
+    end
+     
   end
   
-  def evaluate_score(total)
-     twenty_one?(total) 
+  def evaluate_score(player)
+    total = calculate_hand(player)
+    twenty_one?(total) 
   end
   
   def busted?(total)
-    total > 21 ? defeat : "Continue"
+    total > 21 ? defeat : continue
+  end
+  
+  def blackjack_win
+    "Black Jack!"
   end
   
   def victory
