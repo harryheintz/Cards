@@ -245,7 +245,7 @@ describe BlackjackGame do
       expect(result).to eq "Defeat"
     end
     
-    it "should know if the hand has not busted, but not won either" do
+    it "should know if the hand has not busted, but has not won either" do
       #pending
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)

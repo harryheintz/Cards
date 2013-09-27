@@ -4,5 +4,10 @@ class House
   property :id,               Serial
   belongs_to :blackjack_game, :required => false
   has n, :cards
+  
+  def choice
+    
+    
+  end
    
 end

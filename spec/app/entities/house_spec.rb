@@ -41,7 +41,17 @@ describe House do
   context "playing Blackjack" do
     
     it "should know when to respond with hit option" do
-      pending
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      #options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
+      #game = BlackjackGame.play(options)
+      game.house.cards.fetch(0).update(:value=>5)
+      game.house.cards.fetch(1).update(:value=>10)
+      #game.user.cards.fetch(2).update(:value=>10)
+      game.house.cards.update(:name=>"test")
+      game.process_house_action(game.house)
+      result = game.house.cards
+      expect(result).to have(3).items      
     end
     
     it "should know when to respond with stand option" do

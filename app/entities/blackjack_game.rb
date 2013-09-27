@@ -31,37 +31,6 @@ class BlackjackGame
     game
   end
   
-  def process_user_hit
-    #process_house_action(self.house.choice)
-    hit(user)
-    process_other_players
-  end
-  
-  def process_user_stand
-    #process_house_action(self.house.choice)
-    process_other_players
-  end
-  
-  def process_user_split
-    #process_house_action(self.house.choice)
-    process_other_players
-  end
-  
-  def process_other_players
-    
-    #artificial_players.each do |ap|
-     # ap.make_choice
-      #process the choice
-      #save the cards
-      #end
-  end
-  
-  def hit(player)
-    card = create_card(get_dealer_cards(1))
-    player.cards << card
-    player.save
-  end
-  
   def create_artificial_players
     ap = number_of_players - 2
     ap.downto(1) do |n|
@@ -115,6 +84,49 @@ class BlackjackGame
     card = Card.create(attributes)
   end
   
+  def process_user_hit
+    #process_house_action(self.house.choice)
+    hit(user)
+    #process_other_players
+    process_house_action(house)
+  end
+  
+  def process_user_stand
+    #process_house_action(self.house.choice)
+    #process_other_players
+     process_house_action(house)
+  end
+  
+  def process_user_split
+    #process_house_action(self.house.choice)
+    #process_other_players
+     process_house_action(house)
+  end
+  
+  def process_house_action(house)
+    total = calculate_hand(house) if  evaluate_score(house) ==  "Play on, Bitch!"
+    if total < 17
+      hit(house)
+    else
+      continue
+    end
+  end
+  
+  def process_other_players
+    
+    #artificial_players.each do |ap|
+     # ap.make_choice
+      #process the choice
+      #save the cards
+      #end
+  end
+  
+  def hit(player)
+    card = create_card(get_dealer_cards(1))
+    player.cards << card
+    player.save
+  end
+  
   def calculate_hand(player)
     total = 0
       player.cards.each do |card|
@@ -133,24 +145,25 @@ class BlackjackGame
     total > 10 ? 1 : 11
   end
   
-  def twenty_one?(total)
-    if total == 21 && user.cards.count == 2 
+  def evaluate_score(player)
+    twenty_one?(player) 
+  end
+  
+  def twenty_one?(player)
+     total = calculate_hand(player)
+    if total == 21 && player.cards.count == 2 
        blackjack_win 
      elsif
-    total == 21 && user.cards.count >= 3 #this will eventually compare house.cards total and the greater total will return victory
+    total == 21 && player.cards.count >= 3 #this will eventually compare house.cards total and the greater total will return victory
      victory
    else
-     busted?(total)
+     busted?(player)
     end
      
   end
   
-  def evaluate_score(player)
+  def busted?(player)
     total = calculate_hand(player)
-    twenty_one?(total) 
-  end
-  
-  def busted?(total)
     total > 21 ? defeat : continue
   end
   
