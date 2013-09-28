@@ -20,7 +20,7 @@ describe User do
   
   end
   
-  context "playing a card game" do
+  context "verifying a card hand" do
     
     it "should hold hidden cards" do
       attributes = { number_of_players: 3, user: User.create }
@@ -36,7 +36,66 @@ describe User do
       result = game.user.cards.last.hidden
       expect(result).to be_false 
     end
+  end
     
+  context "game play" do
+      
+      it "should know when to respond to a hit request" do
+        attributes = { number_of_players: 3, user: User.create }
+        saved_game = BlackjackGame.start(attributes)
+        options = {:id => saved_game.id, :hit => true, :stand => false, :split => false}
+        result = BlackjackGame.play(options)
+        expect(result.user.cards).to have(3).items
+      end
+      
+      it "should know when to respond with a stand request" do
+        attributes = { number_of_players: 3, user: User.create }
+        saved_game = BlackjackGame.start(attributes)
+        options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
+        result = BlackjackGame.play(options)
+        expect(result.user.cards).to have(2).items
+      end
+  end
+  
+  context "hand calculation" do
+    
+    it "should evaluate hand for Black Jack" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      hash_one = {:value => 10}
+      hash_two = {:value => 11}
+      new_hash = {:name => "test"}
+      game.user.cards.update(new_hash)
+      game.user.cards.first.update(hash_one)
+      game.user.cards.last.update(hash_two)
+      result = game.user.blackjack?
+      expect(result).to be_true
+    end
+
+
+    it "should evaluate hand for twenty one" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      game.hit(game.user)
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>10)
+      game.user.cards.fetch(2).update(:value=>1)
+      game.user.cards.update(:name=>"test")
+      result = game.user.twenty_one?
+      expect(result).to be_true
+    end
+
+    it "should evaluate hand for busted" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      game.hit(game.user)
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>10)
+      game.user.cards.fetch(2).update(:value=>10)
+      game.user.cards.update(:name=>"test")
+      result = game.user.busted?
+      expect(result).to be_true
+    end
     
   end
   

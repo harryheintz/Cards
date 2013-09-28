@@ -9,6 +9,7 @@ class Card
   belongs_to :house, :required => false
   belongs_to :artificial_player, :required => false
   
+  
   def self.hidden
     all(:hidden => true)
   end

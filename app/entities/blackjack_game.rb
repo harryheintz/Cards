@@ -1,3 +1,4 @@
+require_relative "./shared"
 require 'dm-validations'
 require 'json'
 
@@ -5,11 +6,12 @@ class BlackjackGame
   include DataMapper::Resource
   property :id,                   Serial #blackjack_game.id
   property :number_of_players,    Integer, :required => true
-  belongs_to :user
+  has n, :players
   has 1, :dealer
   has 1, :house
+  has 1, :user
   has n, :artificial_players
-  attr_accessor :initial_cards, :hit, :split, :stand
+  attr_accessor :initial_cards, :hit, :split, :stand, :message
   
   def self.start(attributes)
     game = create(attributes)
@@ -28,7 +30,75 @@ class BlackjackGame
     game.process_user_hit if options[:hit] == true # pry > attributes = { :hit => true }
     game.process_user_stand if options[:stand] == true
     #game.process_user_split if attributes[:split] == true
+    #calculate all of the hands and determine if there is a winner
+    #if a player wins or the house busts, end the game
     game
+  end
+  
+  def process_user_hit
+    hit(user)
+    process_other_players
+    process_house_action
+  end
+  
+  def process_user_stand
+    process_other_players
+    process_house_action
+  end
+  
+  def process_user_split
+     process_other_players
+     process_house_action
+  end
+  
+  def process_house_action
+    hit(house) if house.house_hit? == true
+    @message = game_over?  
+  end
+  
+  def process_other_players
+    artificial_players.each do |ap|
+      hit(ap) if ap.ap_hit?
+    end
+  end
+  
+  def hit(player)
+    card = create_card(get_dealer_cards(1))
+    player.cards << card
+    player.save
+  end
+  
+  def calculate_card_value(string)
+    string.gsub!(/[JQK]/, "10" )
+    string.to_i
+  end
+  
+  def blackjack_win?
+    players.each do |player|
+      return true if player.blackjack?
+    end
+  end
+  
+  def is_push?
+    total = 0
+    players.each do |player|
+      total += 1 if player.twenty_one?
+     end
+     total
+     return true if total > 1
+  end
+  
+  def is_winner?
+    players.each do |player|
+      return true if player.twenty_one?
+    end
+  end
+  
+  def game_over?
+    return true if house.busted? ||
+    players.each do |player|
+      is_push? || is_winner? || blackjack_win?
+    end
   end
   
   def create_artificial_players
@@ -82,110 +152,6 @@ class BlackjackGame
     value = calculate_card_value(card_hash[:name])
     attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value, :hidden => hidden}
     card = Card.create(attributes)
-  end
-  
-  def process_user_hit
-    #process_house_action(self.house.choice)
-    hit(user)
-    #process_other_players
-    process_house_action(house)
-  end
-  
-  def process_user_stand
-    #process_house_action(self.house.choice)
-    #process_other_players
-     process_house_action(house)
-  end
-  
-  def process_user_split
-    #process_house_action(self.house.choice)
-    #process_other_players
-     process_house_action(house)
-  end
-  
-  def process_house_action(house)
-    total = calculate_hand(house) if  evaluate_score(house) ==  "Play on, Bitch!"
-    if total < 17
-      hit(house)
-    else
-      continue
-    end
-  end
-  
-  def process_other_players
-    
-    #artificial_players.each do |ap|
-     # ap.make_choice
-      #process the choice
-      #save the cards
-      #end
-  end
-  
-  def hit(player)
-    card = create_card(get_dealer_cards(1))
-    player.cards << card
-    player.save
-  end
-  
-  def calculate_hand(player)
-    total = 0
-      player.cards.each do |card|
-      total += card.value
-    end
-
-    player.cards.aces.each do |ace|
-      total += evaluate_ace_score(total) #will this work if you had 2 or more aces??
-    end
-    total
-   # evaluate_score(total)
-    
-  end
-  
-  def evaluate_ace_score(total)
-    total > 10 ? 1 : 11
-  end
-  
-  def evaluate_score(player)
-    twenty_one?(player) 
-  end
-  
-  def twenty_one?(player)
-     total = calculate_hand(player)
-    if total == 21 && player.cards.count == 2 
-       blackjack_win 
-     elsif
-    total == 21 && player.cards.count >= 3 #this will eventually compare house.cards total and the greater total will return victory
-     victory
-   else
-     busted?(player)
-    end
-     
-  end
-  
-  def busted?(player)
-    total = calculate_hand(player)
-    total > 21 ? defeat : continue
-  end
-  
-  def blackjack_win
-    "Black Jack!"
-  end
-  
-  def victory
-    "Winner"
-  end
-  
-  def defeat
-    "Defeat"
-  end
-  
-  def continue
-    "Play on, Bitch!"
-  end
-  
-  def calculate_card_value(string)
-    string.gsub!(/[JQK]/, "10" )
-    string.to_i
   end
   
 end

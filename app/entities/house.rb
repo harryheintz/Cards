@@ -1,13 +1,8 @@
 require_relative "./shared"
-class House
-  include DataMapper::Resource, Shared
-  property :id,               Serial
-  belongs_to :blackjack_game, :required => false
-  has n, :cards
+class House < Player
   
-  def choice
-    
-    
+  def house_hit?
+    calculate_hand < 17
   end
-   
+  
 end

@@ -171,7 +171,7 @@ describe BlackjackGame do
       game = BlackjackGame.start(attributes)
       new_hash =  { :name => "A", :value => 0}
       game.user.cards.update(new_hash)
-      result = game.calculate_hand(game.user)
+      result = game.user.calculate_hand
       expect(result).to eq(12)
     end
     
@@ -184,12 +184,8 @@ describe BlackjackGame do
       expect(result.keys).to eq([:name, :suit])
     end
     
-    it "should respond to hit option for user" do
-      attributes = { number_of_players: 3, user: User.create }
-      saved_game = BlackjackGame.start(attributes)
-      options = {:id => saved_game.id, :hit => true, :stand => false, :split => false}
-      result = BlackjackGame.play(options)
-      expect(result.user.cards).to have(3).items
+    it "should know when to respond with the hit option" do
+      pending
     end
     
     it "should know when to respond with stand option" do
@@ -203,71 +199,137 @@ describe BlackjackGame do
     it "should know how to respond with split option" do
       pending
     end
+  end  
     
-    it "should evaluate Black Jack" do
-      attributes = { number_of_players: 3, user: User.create }
+  context "game evaluation" do 
+    it "should know when there is a Blackjack" do
+      attributes = { number_of_players: 2, user: User.create }
       game = BlackjackGame.start(attributes)
-      hash_one = {:value => 10}
-      hash_two = {:value => 11}
-      new_hash = {:name => "test"}
-      game.user.cards.update(new_hash)
-      game.user.cards.first.update(hash_one)
-      game.user.cards.last.update(hash_two)
-      result = game.evaluate_score(game.user)
-      expect(result).to eq "Black Jack!"
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>11)
+      game.user.cards.update(:name=>"test")
+      game.house.cards.fetch(0).update(:value=>10)
+      game.house.cards.fetch(1).update(:value=>9)
+      game.house.cards.update(:name=>"test")
+      result = game.blackjack_win?
+      expect(result).to be_true 
     end
     
-    it "should know when player has won" do
-      attributes = { number_of_players: 3, user: User.create }
+    it "should know when there is a push" do
+      attributes = { number_of_players: 3 , user: User.create }
       game = BlackjackGame.start(attributes)
-      #hash_one = {:value => 10}
-      #hash_two = {:value => 10}
-      #hash_three = {:value => 1}
-      #new_hash = {:name => "test"}
       game.hit(game.user)
       game.user.cards.fetch(0).update(:value=>10)
-      game.user.cards.fetch(1).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>9)
+      game.user.cards.fetch(2).update(:value=>2)
+      game.user.cards.update(:name=>"test")
+      game.hit(game.house)
+      game.house.cards.fetch(0).update(:value=>10)
+      game.house.cards.fetch(1).update(:value=>9)
+      game.house.cards.fetch(2).update(:value=>2)
+      game.house.cards.update(:name=>"test")
+      game.hit(game.artificial_players.first)
+      game.artificial_players.first.cards.fetch(0).update(:value=>10)
+      game.artificial_players.first.cards.fetch(1).update(:value=>9)
+      game.artificial_players.first.cards.fetch(2).update(:value=>2)
+      game.artificial_players.first.cards.update(:name=>"test")
+      result = game.game_over?
+      expect(result).to be_true
+    end
+    
+    it "should know when there is a winner due to twenty one" do
+      attributes = { number_of_players: 2, user: User.create }
+      game = BlackjackGame.start(attributes)
+      game.hit(game.user)
+      game.user.cards.fetch(0).update(:value=>10)
+      game.user.cards.fetch(1).update(:value=>9)
       game.user.cards.fetch(2).update(:value=>1)
       game.user.cards.update(:name=>"test")
-      result = game.evaluate_score(game.user)
-      expect(result).to eq "Winner"
+      game.hit(game.house)
+      game.house.cards.fetch(0).update(:value=>10)
+      game.house.cards.fetch(1).update(:value=>9)
+      game.house.cards.fetch(2).update(:value=>2)
+      game.house.cards.update(:name=>"test")
+      result = game.is_winner?
+      expect(result).to be_true 
+     
     end
     
-    it "should know if the hand has busted" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
-      game.hit(game.user)
-      game.user.cards.fetch(0).update(:value=>10)
-      game.user.cards.fetch(1).update(:value=>10)
-      game.user.cards.fetch(2).update(:value=>10)
-      game.user.cards.update(:name=>"test")
-      result = game.evaluate_score(game.user)
-      expect(result).to eq "Defeat"
-    end
-    
-    it "should know if the hand has not busted, but has not won either" do
-      #pending
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
-      game.hit(game.user)
-      game.user.cards.fetch(0).update(:value=>10)
-      game.user.cards.fetch(1).update(:value=>10)
-      game.user.cards.fetch(2).update(:value=>0)
-      game.user.cards.update(:name=>"test")
-      result = game.evaluate_score(game.user)
-      expect(result).to eq "Play on, Bitch!"
-    end
-    
-    it "should know when house has won" do
+    it "should know when the game ends due to card exhaustion" do
       pending
-    end
-    
-    it "should know when artificial player has won" do
-      pending
+      #attributes = { number_of_players: 3, user: User.create }
+      #game = BlackjackGame.start(attributes)
+      
     end
     
   end
-
+  
+  context "game status" do  
+    it "should know if the house busts, the game is over" do
+        attributes = { number_of_players: 3, user: User.create }
+        game = BlackjackGame.start(attributes)
+        game.hit(game.house)
+        game.house.cards.fetch(0).update(:value=>10)
+        game.house.cards.fetch(1).update(:value=>10)
+        game.house.cards.fetch(2).update(:value=>10)
+        game.house.cards.update(:name=>"test")
+        result = game.game_over?
+        expect(result).to be_true
+    end
+      
+    it "should know if there is a Blackjack from any player, the game is over" do
+        attributes = { number_of_players: 2, user: User.create }
+        game = BlackjackGame.start(attributes)
+        game.user.cards.fetch(0).update(:value=>10)
+        game.user.cards.fetch(1).update(:value=>11)
+        game.user.cards.update(:name=>"test")
+        game.house.cards.fetch(0).update(:value=>10)
+        game.house.cards.fetch(1).update(:value=>9)
+        game.house.cards.update(:name=>"test")
+        result = game.game_over?
+        expect(result).to be_true 
+    end
+    
+    it "should know if any player reaches 21, the game is over" do
+        attributes = { number_of_players: 2, user: User.create }
+        game = BlackjackGame.start(attributes)
+        game.hit(game.user)
+        game.user.cards.fetch(0).update(:value=>10)
+        game.user.cards.fetch(1).update(:value=>9)
+        game.user.cards.fetch(2).update(:value=>1)
+        game.user.cards.update(:name=>"test")
+        game.hit(game.house)
+        game.house.cards.fetch(0).update(:value=>10)
+        game.house.cards.fetch(1).update(:value=>9)
+        game.house.cards.fetch(2).update(:value=>2)
+        game.house.cards.update(:name=>"test")
+        result = game.game_over?
+        expect(result).to be_true 
+    end
+    
+    it "should know if any two or more players push, the game is over" do
+        attributes = { number_of_players: 3 , user: User.create }
+        game = BlackjackGame.start(attributes)
+        game.hit(game.user)
+        game.user.cards.fetch(0).update(:value=>10)
+        game.user.cards.fetch(1).update(:value=>9)
+        game.user.cards.fetch(2).update(:value=>2)
+        game.user.cards.update(:name=>"test")
+        game.hit(game.house)
+        game.house.cards.fetch(0).update(:value=>10)
+        game.house.cards.fetch(1).update(:value=>9)
+        game.house.cards.fetch(2).update(:value=>2)
+        game.house.cards.update(:name=>"test")
+        game.hit(game.artificial_players.first)
+        game.artificial_players.first.cards.fetch(0).update(:value=>10)
+        game.artificial_players.first.cards.fetch(1).update(:value=>9)
+        game.artificial_players.first.cards.fetch(2).update(:value=>2)
+        game.artificial_players.first.cards.update(:name=>"test")
+        result = game.game_over?
+        expect(result).to be_true
+    end
+    
+  end
   
 end
 
