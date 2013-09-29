@@ -74,31 +74,28 @@ class BlackjackGame
   end
   
   def blackjack_win?
-    players.each do |player|
-      return true if player.blackjack?
-    end
+    user.blackjack? | house.blackjack?
+    # players.each do |player|
+ #      player.blackjack?
+ #    end
   end
   
   def is_push?
-    total = 0
-    players.each do |player|
-      total += 1 if player.twenty_one?
-     end
-     total
-     return true if total > 1
+    user.twenty_one? && house.twenty_one? 
+    # artificial_players.each do |ap|
+ #      ap.twenty_one?
+ #     end
   end
   
   def is_winner?
-    players.each do |player|
-      return true if player.twenty_one?
-    end
+    user.twenty_one? | house.twenty_one?
+    # players.each do |player|
+#       player.twenty_one?
+#     end
   end
   
   def game_over?
-    return true if house.busted? ||
-    players.each do |player|
-      is_push? || is_winner? || blackjack_win?
-    end
+    house.busted? | is_winner? | blackjack_win?
   end
   
   def create_artificial_players

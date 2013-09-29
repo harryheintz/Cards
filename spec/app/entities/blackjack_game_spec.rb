@@ -201,19 +201,7 @@ describe BlackjackGame do
     end
   end  
     
-  context "game evaluation" do 
-    it "should know when there is a Blackjack" do
-      attributes = { number_of_players: 2, user: User.create }
-      game = BlackjackGame.start(attributes)
-      game.user.cards.fetch(0).update(:value=>10)
-      game.user.cards.fetch(1).update(:value=>11)
-      game.user.cards.update(:name=>"test")
-      game.house.cards.fetch(0).update(:value=>10)
-      game.house.cards.fetch(1).update(:value=>9)
-      game.house.cards.update(:name=>"test")
-      result = game.blackjack_win?
-      expect(result).to be_true 
-    end
+  context "individual hand evaluation" do 
     
     it "should know when there is a push" do
       attributes = { number_of_players: 3 , user: User.create }
@@ -228,12 +216,12 @@ describe BlackjackGame do
       game.house.cards.fetch(1).update(:value=>9)
       game.house.cards.fetch(2).update(:value=>2)
       game.house.cards.update(:name=>"test")
-      game.hit(game.artificial_players.first)
-      game.artificial_players.first.cards.fetch(0).update(:value=>10)
-      game.artificial_players.first.cards.fetch(1).update(:value=>9)
-      game.artificial_players.first.cards.fetch(2).update(:value=>2)
-      game.artificial_players.first.cards.update(:name=>"test")
-      result = game.game_over?
+      # game.hit(game.artificial_players.first)
+#       game.artificial_players.first.cards.fetch(0).update(:value=>10)
+#       game.artificial_players.first.cards.fetch(1).update(:value=>9)
+#       game.artificial_players.first.cards.fetch(2).update(:value=>1)
+#       game.artificial_players.first.cards.update(:name=>"test")
+      result = game.is_push?
       expect(result).to be_true
     end
     
