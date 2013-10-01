@@ -184,21 +184,6 @@ describe BlackjackGame do
       expect(result.keys).to eq([:name, :suit])
     end
     
-    it "should know when to respond with the hit option" do
-      pending
-    end
-    
-    it "should know when to respond with stand option" do
-      attributes = { number_of_players: 3, user: User.create }
-      saved_game = BlackjackGame.start(attributes)
-      options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
-      result = BlackjackGame.play(options)
-      expect(result.user.cards).to have(2).items
-    end
-    
-    it "should know how to respond with split option" do
-      pending
-    end
   end  
     
   context "individual hand evaluation" do 
@@ -244,10 +229,11 @@ describe BlackjackGame do
     end
     
     it "should know when the game ends due to card exhaustion" do
-      pending
-      #attributes = { number_of_players: 3, user: User.create }
-      #game = BlackjackGame.start(attributes)
-      
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      throw_away = game.dealer.deal(44)
+      result = game.card_exhaustion?
+      expect(result).to be_true
     end
     
   end

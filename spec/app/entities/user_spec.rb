@@ -55,6 +55,29 @@ describe User do
         result = BlackjackGame.play(options)
         expect(result.user.cards).to have(2).items
       end
+      
+      it "should be able to determine if a hand is eleigble for a split" do
+        attributes = { number_of_players: 3, user: User.create }
+        game = BlackjackGame.start(attributes)
+        game.user.cards.fetch(0).update(:value=>10)
+        game.user.cards.fetch(1).update(:value=>10)
+        game.user.cards.update(:name=>"test")
+        result = game.user.can_split?
+        expect(result).to be_true
+      end
+      
+      it "should know when to respond with a split request" do
+        pending
+        attributes = { number_of_players: 3, user: User.create }
+        saved_game = BlackjackGame.start(attributes)
+        saved_game.user.cards.fetch(0).update(:value=>10)
+        saved_game.user.cards.fetch(1).update(:value=>10)
+        saved_game.user.cards.update(:name=>"test")
+        options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
+        game = BlackjackGame.play(options)
+        result = game.user.cards << game.user.split_cards
+        expect(result.user.cards).to have(4).items
+      end
   end
   
   context "hand calculation" do

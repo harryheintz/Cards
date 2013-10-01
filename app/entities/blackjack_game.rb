@@ -33,6 +33,11 @@ class BlackjackGame
     #calculate all of the hands and determine if there is a winner
     #if a player wins or the house busts, end the game
     game
+    # returned message should be something like --> 
+    #  {:game_over => t or f, :winner => "winner's name", :push => "tying players' name", :bust => "busted player" 
+    #    {:user_cards => "some cards", :split => false} 
+#        {:house_cards => "some cards"} 
+#        {:artificial_player_cards => "some cards", :split => false} }
   end
   
   def process_user_hit
@@ -47,6 +52,11 @@ class BlackjackGame
   end
   
   def process_user_split
+    #can_split? ? 
+    #split_cards = [] <-- should not need this if set up in DataMapper
+    #split_cards = user.cards.shift <--
+    #hit(user)
+    #hit_split(user) : <-- else,
      process_other_players
      process_house_action
   end
@@ -66,6 +76,12 @@ class BlackjackGame
     card = create_card(get_dealer_cards(1))
     player.cards << card
     player.save
+  end
+  
+  def hit_split(player)
+    card = create_card(get_dealer_cards(1))
+    player.split_cards << card
+    player.save  
   end
   
   def calculate_card_value(string)
@@ -94,7 +110,11 @@ class BlackjackGame
 #     end
   end
   
-  def game_over?
+  def card_exhaustion?
+    dealer.deck.count < number_of_players * 1
+  end
+  
+  def game_over? #should be returned every message
     house.busted? | is_winner? | blackjack_win?
   end
   

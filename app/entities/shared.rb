@@ -1,4 +1,9 @@
 module Shared
+  
+  def can_split? #should be returned every message
+    cards.first[:value] == cards.last[:value] 
+  end
+  
   def has_ace? 
     hand.each do |card|
       false unless card.is_ace?
@@ -41,4 +46,5 @@ class Player
   property :type,              Discriminator
   belongs_to :blackjack_game, :required => false
   has n, :cards
+  
 end

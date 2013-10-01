@@ -52,7 +52,6 @@ describe House do
     end
     
     it "should know when to respond with stand option" do
-      pending
       attributes = { number_of_players: 3, user: User.create }
       game = BlackjackGame.start(attributes)
       game.house.cards.fetch(0).update(:value=>8)

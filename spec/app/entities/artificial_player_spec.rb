@@ -21,7 +21,7 @@ describe ArtificialPlayer do
   
   end
   
-  context "playing a card game" do
+  context "setting up a card game" do
     
     it "should hold hidden cards" do
       attributes = { number_of_players: 3, user: User.create }
@@ -65,8 +65,21 @@ describe ArtificialPlayer do
       
     end
     
+    it "should be able to determine if a hand is eleigble for a split" do
+      attributes = { number_of_players: 3, user: User.create }
+      game = BlackjackGame.start(attributes)
+      game.artificial_players.first.cards.fetch(0).update(:value=>10)
+      game.artificial_players.first.cards.fetch(1).update(:value=>10)
+      game.artificial_players.first.cards.update(:name=>"test")
+      result = game.artificial_players.first.can_split?
+      expect(result).to be_true
+    end
+    
     it "should respond to split" do
       pending
+      #essentially, if two cards on the initial deal are face value, a plit can be called.
+      #so, if the value of the hidden card is the same as the value of the visible card, split?
+      #this requires a seperate "hand" that is evaluated separately
     end
     
   end
