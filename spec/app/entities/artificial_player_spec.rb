@@ -79,7 +79,7 @@ describe ArtificialPlayer do
       pending
       #essentially, if two cards on the initial deal are face value, a plit can be called.
       #so, if the value of the hidden card is the same as the value of the visible card, split?
-      #this requires a seperate "hand" that is evaluated separately
+      #this requires a seperate "hand" that is evaluated separately, or, an attribute of :split => true.
     end
     
   end

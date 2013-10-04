@@ -5,6 +5,7 @@ require 'rspec'
 require 'dm-rspec'
 require 'rack/test'
 require 'rspec/autorun'
+require 'guard'
 
 ENV['RACK_ENV'] = 'test'
 config = YAML.load_file('config/database.yml')
