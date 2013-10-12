@@ -40,7 +40,7 @@ describe User do
     
   context "game play" do
       
-      it "should know when to respond to a hit request" do
+      it "should respond to a hit request" do
         attributes = { number_of_players: 3, user: User.create }
         saved_game = BlackjackGame.start(attributes)
         options = {:id => saved_game.id, :hit => true, :stand => false, :split => false}
@@ -48,7 +48,7 @@ describe User do
         expect(result.user.cards).to have(3).items
       end
       
-      it "should know when to respond with a stand request" do
+      it "should respond to a stand request" do
         attributes = { number_of_players: 3, user: User.create }
         saved_game = BlackjackGame.start(attributes)
         options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
@@ -56,7 +56,7 @@ describe User do
         expect(result.user.cards).to have(2).items
       end
       
-      it "should be able to determine if a hand is eleigble for a split" do
+      it "should determine if a hand is eleigble for a split" do
         attributes = { number_of_players: 3, user: User.create }
         game = BlackjackGame.start(attributes)
         game.user.cards.fetch(0).update(:value=>10)
@@ -66,8 +66,7 @@ describe User do
         expect(result).to be_true
       end
       
-      it "should know when to respond with a split request" do
-        pending
+      it "should respond with a split request" do
         attributes = { number_of_players: 3, user: User.create }
         saved_game = BlackjackGame.start(attributes)
         saved_game.user.cards.fetch(0).update(:value=>10)
@@ -75,8 +74,20 @@ describe User do
         saved_game.user.cards.update(:name=>"test")
         options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
         game = BlackjackGame.play(options)
-        result = game.user.cards << game.user.split_cards
-        expect(result.user.cards).to have(4).items
+        result = game.user.split_cards
+        expect(result).to have(2).items
+      end
+      
+      it "should hold split cards" do
+        attributes = { number_of_players: 3, user: User.create }
+        saved_game = BlackjackGame.start(attributes)
+        saved_game.user.cards.fetch(0).update(:value=>10)
+        saved_game.user.cards.fetch(1).update(:value=>10)
+        saved_game.user.cards.update(:name=>"test")
+        options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
+        game = BlackjackGame.play(options)
+        result = game.user.cards.last
+        expect(result.split_card).to be_true
       end
   end
   

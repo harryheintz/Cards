@@ -1,4 +1,4 @@
-class Card
+class SplitCard
   include DataMapper::Resource
   property :id,               Serial
   property :name,             String

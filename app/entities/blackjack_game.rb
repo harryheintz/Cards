@@ -1,6 +1,6 @@
 require_relative "./shared"
 require 'dm-validations'
-require 'json'
+require 'json' 
 
 class BlackjackGame
   include DataMapper::Resource
@@ -29,7 +29,7 @@ class BlackjackGame
     game = BlackjackGame.get(options[:id])
     game.process_user_hit if options[:hit] == true # pry > attributes = { :hit => true }
     game.process_user_stand if options[:stand] == true
-    #game.process_user_split if attributes[:split] == true
+    game.process_user_split if options[:split] == true
     #calculate all of the hands and determine if there is a winner
     #if a player wins or the house busts, end the game
     game
@@ -52,7 +52,8 @@ class BlackjackGame
   end
   
   def process_user_split
-    #can_split? ? 
+     hit_split(user)
+     hit_split(user)
     #split_cards = [] <-- should not need this if set up in DataMapper
     #split_cards = user.cards.shift <--
     #hit(user)
@@ -90,24 +91,23 @@ class BlackjackGame
   end
   
   def blackjack_win?
-    user.blackjack? | house.blackjack?
-    # players.each do |player|
- #      player.blackjack?
- #    end
+    answers = players.map { |player| player.blackjack? }
+    answers.include?(true)
+  end
+  
+  def first_round_push?
+    answers = players.map { |player| player.blackjack? }
+    answers.include?(true) && is_push?
   end
   
   def is_push?
-    user.twenty_one? && house.twenty_one? 
-    # artificial_players.each do |ap|
- #      ap.twenty_one?
- #     end
+    answers = players.map { |player| player.twenty_one? }
+    answers.count(true) > 1
   end
   
-  def is_winner?
-    user.twenty_one? | house.twenty_one?
-    # players.each do |player|
-#       player.twenty_one?
-#     end
+  def is_winner?    
+    answers = players.map { |player| player.twenty_one? }
+    answers.include?(true)
   end
   
   def card_exhaustion?
@@ -160,14 +160,14 @@ class BlackjackGame
   end
   
   def associate_down_card_for(player)
-    card = create_card(@initial_cards.shift, true)
+    card = create_card(@initial_cards.shift, hidden=true)
     player.cards << card
     player.save
   end
   
-  def create_card(card_hash, hidden=false)
+  def create_card(card_hash, hidden=false, split=false)
     value = calculate_card_value(card_hash[:name])
-    attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value, :hidden => hidden}
+    attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value, :hidden => hidden, :split => split}
     card = Card.create(attributes)
   end
   

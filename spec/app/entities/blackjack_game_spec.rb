@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require_relative '../../../spec/app/spec_helper.rb'
 require_relative '../../../app/entities/card_deck'
 require_relative '../../../app/entities/dealer'
 require_relative '../../../app/entities/card_deck'
@@ -260,7 +260,7 @@ describe BlackjackGame do
         game.house.cards.fetch(0).update(:value=>10)
         game.house.cards.fetch(1).update(:value=>9)
         game.house.cards.update(:name=>"test")
-        result = game.game_over?
+        result = game.blackjack_win?
         expect(result).to be_true 
     end
     

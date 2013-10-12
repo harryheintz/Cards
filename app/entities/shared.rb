@@ -42,9 +42,10 @@ end
 
 class Player
   include DataMapper::Resource, Shared
-  property :id,               Serial
+  property :id,                Serial
   property :type,              Discriminator
   belongs_to :blackjack_game, :required => false
   has n, :cards
+  #has n, :split_cards
   
 end
