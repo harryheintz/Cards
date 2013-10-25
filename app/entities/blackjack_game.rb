@@ -80,8 +80,8 @@ class BlackjackGame
   end
   
   def hit_split(player)
-    card = create_card(get_dealer_cards(1))
-    player.split_cards << card
+    card = create_card(get_dealer_cards(1), hidden=false, split=true)
+    player.cards << card
     player.save  
   end
   

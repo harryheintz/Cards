@@ -19,7 +19,11 @@ class Card
     all(:hidden => false)
   end
   
-  def self.split
+  def self.split_one
+    all(:split => false)
+  end
+  
+  def self.split_two
     all(:split => true)
   end
   

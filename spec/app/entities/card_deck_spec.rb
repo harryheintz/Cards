@@ -1,7 +1,4 @@
 require_relative '../spec_helper'
-require_relative '../../../app/entities/card_deck'
-require_relative '../../../app/entities/cardfaces'
-
 
 describe CardDeck do
  

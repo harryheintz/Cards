@@ -46,6 +46,6 @@ class Player
   property :type,              Discriminator
   belongs_to :blackjack_game, :required => false
   has n, :cards
-  #has n, :split_cards
+  has n, :split_cards
   
 end

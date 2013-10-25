@@ -1,13 +1,4 @@
 require_relative '../spec_helper'
-require_relative '../../../app/entities/artificial_player'
-require_relative '../../../app/entities/blackjack_game'
-require_relative '../../../app/entities/user'
-require_relative '../../../app/entities/dealer'
-require_relative '../../../app/entities/card_deck'
-require_relative '../../../app/entities/house'
-require_relative '../../../app/entities/cardfaces'
-
-
 
 describe User do
  
@@ -74,8 +65,8 @@ describe User do
         saved_game.user.cards.update(:name=>"test")
         options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
         game = BlackjackGame.play(options)
-        result = game.user.split_cards
-        expect(result).to have(2).items
+        result = game.user.cards
+        expect(result).to have(4).items
       end
       
       it "should hold split cards" do
@@ -87,7 +78,7 @@ describe User do
         options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
         game = BlackjackGame.play(options)
         result = game.user.cards.last
-        expect(result.split_card).to be_true
+        expect(result.split).to be_true
       end
   end
   
