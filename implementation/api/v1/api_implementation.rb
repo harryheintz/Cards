@@ -7,12 +7,16 @@ module Implementation
         "You need to request a specific endpoint."
       end
       
-      post '/start' do
-        if game = BlackjackGame.start({user_id: params[:user_id], number_of_players: params[:number_of_players]})
+      put '/start' do
+        if game = BlackjackGame.start({user_id: 1, number_of_players: 3})
           game.to_json
         else
           status 404
         end
+      end
+      
+      post '/play' do
+        "send some info back to the api"
       end
       
     end

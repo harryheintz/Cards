@@ -13,7 +13,9 @@ class BlackjackGame
   has n, :artificial_players
   attr_accessor :initial_cards, :hit, :split, :stand, :message
   
-  def self.start(attributes)
+  def self.start(request_attributes)
+    user = User.get(request_attributes[:user_id])
+    attributes = {:user => user, :number_of_players => request_attributes[:number_of_players]}
     game = create(attributes)
     return nil unless game.valid?
     game.dealer = Dealer.new
@@ -34,7 +36,7 @@ class BlackjackGame
     #if a player wins or the house busts, end the game
     game
     # returned message should be something like --> 
-    #  {:game_over => t or f, :winner => "winner's name", :push => "tying players' name", :bust => "busted player" 
+    # response =  {:game_over => game_over?, :winner => "winner's name", :push => "tying players' name", :bust => "busted player" 
     #    {:user_cards => "some cards", :split => false} 
 #        {:house_cards => "some cards"} 
 #        {:artificial_player_cards => "some cards", :split => false} }
