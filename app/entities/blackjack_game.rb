@@ -16,7 +16,7 @@ class BlackjackGame
   def self.start(request_attributes)
     parsed_attributes = JSON.parse(request_attributes)
     user = User.get(parsed_attributes["user_id"])
-    attributes = {:user => user[:id], :number_of_players => parsed_attributes["number_of_players"]}
+    attributes = {:user => user, :number_of_players => parsed_attributes["number_of_players"]}
     game = create(attributes)
     return nil unless game.valid?
     game.dealer = Dealer.new
