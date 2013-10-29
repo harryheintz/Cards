@@ -13,9 +13,9 @@ module Implementation
  #        else
  #          status 404
  #        end
-         attributes =  {number_of_players: 3, user_id: 1}.to_json
-         game = BlackjackGame.start(attributes) 
-         
+         request_attributes =  {number_of_players: 3, user_id: 1}.to_json
+         game = BlackjackGame.start(request_attributes) 
+         game.to_json
       end
       
       post '/play' do

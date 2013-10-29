@@ -17,6 +17,7 @@ class BlackjackGame
     parsed_attributes = JSON.parse(request_attributes)
     user = User.get(parsed_attributes["user_id"])
     attributes = {:user => user[:id], :number_of_players => parsed_attributes["number_of_players"]}
+    binding.pry
     game = create(attributes)
     return nil unless game.valid?
     game.dealer = Dealer.new
