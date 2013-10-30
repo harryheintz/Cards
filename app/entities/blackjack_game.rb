@@ -1,6 +1,5 @@
 require_relative "./shared"
 require 'dm-validations'
-require 'json' 
 
 class BlackjackGame
   include DataMapper::Resource
