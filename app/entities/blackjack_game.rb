@@ -13,10 +13,9 @@ class BlackjackGame
   has n, :artificial_players
   attr_accessor :initial_cards, :hit, :split, :stand, :message
   
-  def self.start(request_attributes)
-    parsed_attributes = JSON.parse(request_attributes)
-    user = User.get(parsed_attributes["user_id"])
-    attributes = {:user => user, :number_of_players => parsed_attributes["number_of_players"]}
+  def self.start(parsed_json)
+    user = User.get(parsed_json["user_id"])
+    attributes = {:user => user, :number_of_players => parsed_json["number_of_players"]}
     game = create(attributes)
     return nil unless game.valid?
     game.dealer = Dealer.new
