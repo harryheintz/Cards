@@ -24,7 +24,13 @@ class BlackjackGame
     game.save
     game.cards_for_first_deal
     game.first_deal
-    game
+    response = {}
+    response = {"game_id" => game.id,
+                "user_cards" => game.user.cards,
+                "house_cards" => game.house.cards,
+                "ap_one_cards" => game.artificial_players.first.cards,
+                "ap_two_cards" => game.artificial_players.last.cards,
+                }
   end
   
   def self.play(options)

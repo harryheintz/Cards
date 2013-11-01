@@ -9,15 +9,23 @@ Feature: Start the Blackjack game
     And I send and accept JSON
     When I send a POST request to "/api/v1/start" with the following:
     """
-      {"user_id":"1","number_of_players":"3"}
+      {"user_id": 1,"number_of_players": 3}
     """
-    Then the response code should be "200"
+    Then the response code should be "201"
     And the JSON response body should have the following elements:
-		| game_id                     |
-		| user_cards                  |
-		| house_cards                 |
-		| artificial_player_one_cards |
-		| artificial_player_two_cards |
-		| play_actions                |
-		| game_message                |
-		| game_staus                  |
+			| game_id                     |
+			| user_cards                  |
+			| house_cards                 |
+			| ap_one_cards                |
+			| ap_two_cards                |
+			| play_actions                |
+			| game_message                |
+			| game_staus                  |
+			| hit|
+			| stand|
+			| split|
+			| user_win|
+			| house_win|
+			| ap_one_win                |
+			| ap_two_win                |
+		

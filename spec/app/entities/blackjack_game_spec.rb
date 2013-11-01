@@ -5,7 +5,7 @@ describe BlackjackGame do
   context "validation" do
     
     it "assigns an id" do
-      attributes = { number_of_players: 2, user: User.create }
+      attributes = { number_of_players: 2, user_id: User.create }
       result = BlackjackGame.start(attributes)
       expect(result.id).to eq 1
     end
