@@ -6,6 +6,11 @@ module Implementation
           @title || "Eventually, I will be a number game."
         end
       end
+      class Test < Layout
+        def game
+          @game
+        end
+      end
       class Home < Layout
         def content
           "Welcome to the Number Game."

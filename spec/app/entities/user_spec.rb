@@ -14,16 +14,18 @@ describe User do
   context "verifying a card hand" do
     
     it "should hold hidden cards" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       result = game.user.cards.first.hidden
       expect(result).to be_true 
     end
     
     
     it "should hold visible cards" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       result = game.user.cards.last.hidden
       expect(result).to be_false 
     end
@@ -32,24 +34,27 @@ describe User do
   context "game play" do
       
       it "should respond to a hit request" do
-        attributes = { number_of_players: 3, user: User.create }
-        saved_game = BlackjackGame.start(attributes)
+        User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        saved_game = BlackjackGame.prepare(attributes)
         options = {:id => saved_game.id, :hit => true, :stand => false, :split => false}
         result = BlackjackGame.play(options)
         expect(result.user.cards).to have(3).items
       end
       
       it "should respond to a stand request" do
-        attributes = { number_of_players: 3, user: User.create }
-        saved_game = BlackjackGame.start(attributes)
+        User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        saved_game = BlackjackGame.prepare(attributes)
         options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
         result = BlackjackGame.play(options)
         expect(result.user.cards).to have(2).items
       end
       
       it "should determine if a hand is eleigble for a split" do
-        attributes = { number_of_players: 3, user: User.create }
-        game = BlackjackGame.start(attributes)
+        User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        game = BlackjackGame.prepare(attributes)
         game.user.cards.fetch(0).update(:value=>10)
         game.user.cards.fetch(1).update(:value=>10)
         game.user.cards.update(:name=>"test")
@@ -58,8 +63,9 @@ describe User do
       end
       
       it "should respond with a split request" do
-        attributes = { number_of_players: 3, user: User.create }
-        saved_game = BlackjackGame.start(attributes)
+        User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        saved_game = BlackjackGame.prepare(attributes)
         saved_game.user.cards.fetch(0).update(:value=>10)
         saved_game.user.cards.fetch(1).update(:value=>10)
         saved_game.user.cards.update(:name=>"test")
@@ -70,8 +76,9 @@ describe User do
       end
       
       it "should hold split cards" do
-        attributes = { number_of_players: 3, user: User.create }
-        saved_game = BlackjackGame.start(attributes)
+        User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        saved_game = BlackjackGame.prepare(attributes)
         saved_game.user.cards.fetch(0).update(:value=>10)
         saved_game.user.cards.fetch(1).update(:value=>10)
         saved_game.user.cards.update(:name=>"test")
@@ -85,8 +92,9 @@ describe User do
   context "hand calculation" do
     
     it "should evaluate hand for Black Jack" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       hash_one = {:value => 10}
       hash_two = {:value => 11}
       new_hash = {:name => "test"}
@@ -99,8 +107,9 @@ describe User do
 
 
     it "should evaluate hand for twenty one" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       game.hit(game.user)
       game.user.cards.fetch(0).update(:value=>10)
       game.user.cards.fetch(1).update(:value=>10)
@@ -111,8 +120,9 @@ describe User do
     end
 
     it "should evaluate hand for busted" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       game.hit(game.user)
       game.user.cards.fetch(0).update(:value=>10)
       game.user.cards.fetch(1).update(:value=>10)

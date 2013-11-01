@@ -5,9 +5,9 @@ describe Card do
   context "validation" do
   
     # it "assigns an id" do
-#       result = Card.create
-#       expect(result.id).to eq 1
-#     end
+   #    result = Card.create
+   #    expect(result.id).to eq 1
+   #  end
   
   end
  

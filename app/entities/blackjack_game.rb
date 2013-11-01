@@ -12,8 +12,7 @@ class BlackjackGame
   has n, :artificial_players
   attr_accessor :initial_cards, :hit, :split, :stand, :message
   
-
-  def self.start(parsed_json)
+  def self.prepare(parsed_json)
     user = User.get(parsed_json["user_id"])
     attributes = {:user => user, :number_of_players => parsed_json["number_of_players"]}
     game = create(attributes)
@@ -24,12 +23,33 @@ class BlackjackGame
     game.save
     game.cards_for_first_deal
     game.first_deal
+    game
+    
+  end
+  
+  def self.start(parsed_json)
+    # user = User.get(parsed_json["user_id"])
+ #    attributes = {:user => user, :number_of_players => parsed_json["number_of_players"]}
+ #    game = create(attributes)
+ #    return nil unless game.valid?
+ #    game.dealer = Dealer.new
+ #    game.house = House.new
+ #    game.create_artificial_players unless game.number_of_players < 2
+ #    game.save
+ #    game.cards_for_first_deal
+ #    game.first_deal
+    game = self.prepare(parsed_json)
     response = {}
     response = {"game_id" => game.id,
-                "user_cards" => game.user.cards,
-                "house_cards" => game.house.cards,
-                "ap_one_cards" => game.artificial_players.first.cards,
-                "ap_two_cards" => game.artificial_players.last.cards,
+                "user_cards" => game.user.response,
+                "house_cards" => game.house.response,
+                "ap_one_cards" => game.artificial_players.first.response,
+                "ap_two_cards" => game.artificial_players.last.response,
+                "user_split" => game.user.can_split?,
+                "user_blackjack_win" => game.user.blackjack?,
+                "house_blackjack_win" => game.house.blackjack?,
+                "ap_one_blackjack_win" => game.artificial_players.first.blackjack?,
+                "ap_two_blackjack_win" => game.artificial_players.last.blackjack?
                 }
   end
   

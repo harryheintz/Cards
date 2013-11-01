@@ -14,15 +14,17 @@ describe House do
   context "setting up a card game" do
     
     it "should hold hidden cards" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       result = game.house.cards.first.hidden
       expect(result).to be_true 
     end
     
     it "should hold visible cards" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       result = game.house.cards.last.hidden
       expect(result).to be_false 
     end
@@ -32,8 +34,9 @@ describe House do
   context "playing Blackjack" do
     
     it "should know when to respond with hit option" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       game.house.cards.fetch(0).update(:value=>5)
       game.house.cards.fetch(1).update(:value=>10)
       game.house.cards.update(:name=>"test")
@@ -43,8 +46,9 @@ describe House do
     end
     
     it "should know when to respond with stand option" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       game.house.cards.fetch(0).update(:value=>8)
       game.house.cards.fetch(1).update(:value=>10)
       game.house.cards.update(:name=>"test")
@@ -58,8 +62,9 @@ describe House do
   context "hand calculation" do
     
     it "should evaluate hand for Black Jack" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       hash_one = {:value => 10}
       hash_two = {:value => 11}
       new_hash = {:name => "test"}
@@ -72,8 +77,9 @@ describe House do
 
 
     it "should evaluate hand for twenty one" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       game.hit(game.house)
       game.house.cards.fetch(0).update(:value=>10)
       game.house.cards.fetch(1).update(:value=>10)
@@ -84,8 +90,9 @@ describe House do
     end
 
     it "should evaluate hand for busted" do
-      attributes = { number_of_players: 3, user: User.create }
-      game = BlackjackGame.start(attributes)
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+      game = BlackjackGame.prepare(attributes)
       game.hit(game.house)
       game.house.cards.fetch(0).update(:value=>10)
       game.house.cards.fetch(1).update(:value=>10)

@@ -16,7 +16,7 @@ describe ArtificialPlayer do
     it "should hold hidden cards" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      b = BlackjackGame.start(attributes)
+      b = BlackjackGame.prepare(attributes)
       result = b.artificial_players.first
       expect(result.cards.hidden).to have(1).item
     end
@@ -24,7 +24,7 @@ describe ArtificialPlayer do
     it "should hold visible cards" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      b = BlackjackGame.start(attributes)
+      b = BlackjackGame.prepare(attributes)
       result = b.artificial_players.first
       expect(result.cards.visible).to have(1).item
       
@@ -37,7 +37,7 @@ describe ArtificialPlayer do
     it "should respond to hit" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      game = BlackjackGame.start(attributes)
+      game = BlackjackGame.prepare(attributes)
       game.artificial_players.first.cards.fetch(0).update(:value=>5)
       game.artificial_players.first.cards.fetch(1).update(:value=>10)
       game.artificial_players.first.cards.update(:name=>"test")
@@ -49,7 +49,7 @@ describe ArtificialPlayer do
     it "should respond to stand" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      game = BlackjackGame.start(attributes)
+      game = BlackjackGame.prepare(attributes)
       game.artificial_players.first.cards.fetch(0).update(:value=>9)
       game.artificial_players.first.cards.fetch(1).update(:value=>10)
       game.artificial_players.first.cards.update(:name=>"test")
@@ -62,7 +62,7 @@ describe ArtificialPlayer do
     it "should be able to determine if a hand is eleigble for a split" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      game = BlackjackGame.start(attributes)
+      game = BlackjackGame.prepare(attributes)
       game.artificial_players.first.cards.fetch(0).update(:value=>10)
       game.artificial_players.first.cards.fetch(1).update(:value=>10)
       game.artificial_players.first.cards.update(:name=>"test")
@@ -84,7 +84,7 @@ describe ArtificialPlayer do
     it "should evaluate hand for Black Jack" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      game = BlackjackGame.start(attributes)
+      game = BlackjackGame.prepare(attributes)
       hash_one = {:value => 10}
       hash_two = {:value => 11}
       new_hash = {:name => "test"}
@@ -99,7 +99,7 @@ describe ArtificialPlayer do
     it "should evaluate hand for twenty one" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      game = BlackjackGame.start(attributes)
+      game = BlackjackGame.prepare(attributes)
       game.hit(game.artificial_players.first)
       game.artificial_players.first.cards.fetch(0).update(:value=>10)
       game.artificial_players.first.cards.fetch(1).update(:value=>10)
@@ -112,7 +112,7 @@ describe ArtificialPlayer do
     it "should evaluate hand for busted" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
-      game = BlackjackGame.start(attributes)
+      game = BlackjackGame.prepare(attributes)
       game.hit(game.artificial_players.first)
       game.artificial_players.first.cards.fetch(0).update(:value=>10)
       game.artificial_players.first.cards.fetch(1).update(:value=>10)

@@ -48,4 +48,12 @@ class Player
   has n, :cards
   has n, :split_cards
   
+  def response
+    response = []
+    cards.each do |card|
+      response << card.response
+    end
+    response
+  end
+  
 end

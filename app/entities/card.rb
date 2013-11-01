@@ -10,6 +10,13 @@ class Card
   belongs_to :house, :required => false
   belongs_to :artificial_player, :required => false
   
+  def response
+    { image_key: image_key, value: value, hidden: hidden }
+  end
+  
+  def image_key
+    name + suit
+  end
   
   def self.hidden
     all(:hidden => true)

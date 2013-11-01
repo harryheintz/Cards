@@ -17,14 +17,12 @@ module Implementation
 
       post '/start' do
         body = JSON.parse(request.body.read)
-        response = response.to_json
-         "Your game id is: #{response}"
-        # if game = BlackjackGame.start(body)
- #           status 201
- #           "Your game id is: #{response[game_id]}"
- #        else
- #          status 404
- #        end
+        if response = BlackjackGame.start(body)
+           status 201
+           response.to_json
+        else
+          status 404
+        end
       end
       
       put '/play' do
