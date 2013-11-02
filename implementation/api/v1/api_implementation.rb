@@ -25,8 +25,14 @@ module Implementation
         end
       end
       
-      put '/play' do
-        "send some info back to the api"
+      post '/play' do
+        body = JSON.parse(request.body.read)
+        if response = BlackjackGame.play(body)
+           status 201
+           response.to_json
+        else
+          status 404
+        end
       end
       
     end

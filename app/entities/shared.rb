@@ -1,6 +1,6 @@
 module Shared
   
-  def can_split? #should be returned every message
+  def can_split?
     cards.first[:value] == cards.last[:value] 
   end
   

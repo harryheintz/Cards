@@ -28,19 +28,10 @@ class BlackjackGame
   end
   
   def self.start(parsed_json)
-    # user = User.get(parsed_json["user_id"])
- #    attributes = {:user => user, :number_of_players => parsed_json["number_of_players"]}
- #    game = create(attributes)
- #    return nil unless game.valid?
- #    game.dealer = Dealer.new
- #    game.house = House.new
- #    game.create_artificial_players unless game.number_of_players < 2
- #    game.save
- #    game.cards_for_first_deal
- #    game.first_deal
     game = self.prepare(parsed_json)
     response = {}
-    response = {"game_id" => game.id,
+    response = {
+                "game_id" => game.id,
                 "user_cards" => game.user.response,
                 "house_cards" => game.house.response,
                 "ap_one_cards" => game.artificial_players.first.response,
@@ -49,23 +40,31 @@ class BlackjackGame
                 "user_blackjack_win" => game.user.blackjack?,
                 "house_blackjack_win" => game.house.blackjack?,
                 "ap_one_blackjack_win" => game.artificial_players.first.blackjack?,
-                "ap_two_blackjack_win" => game.artificial_players.last.blackjack?
+                "ap_two_blackjack_win" => game.artificial_players.last.blackjack?,
+                "first_round_push" => game.first_round_push?
                 }
   end
   
   def self.play(options)
-    game = BlackjackGame.get(options[:id])
-    game.process_user_hit if options[:hit] == true # pry > attributes = { :hit => true }
-    game.process_user_stand if options[:stand] == true
-    game.process_user_split if options[:split] == true
-    #calculate all of the hands and determine if there is a winner
-    #if a player wins or the house busts, end the game
-    game
-    # returned message should be something like --> 
-    # response =  {:game_over => game_over?, :winner => "winner's name", :push => "tying players' name", :bust => "busted player" 
-    #    {:user_cards => "some cards", :split => false} 
-#        {:house_cards => "some cards"} 
-#        {:artificial_player_cards => "some cards", :split => false} }
+    game = BlackjackGame.get(options["game_id"])
+    game.process_user_hit if options["hit"] == true
+    game.process_user_stand if options["stand"] == true
+    game.process_user_split if options["split"] == true
+    response = {}
+    response = {
+                "game_id" => game.id,
+                "push" => game.is_push?, 
+                # "user_twenty_one" => game.user.twenty_one?,
+#                 "user_bust" => game.user.busted?,
+                "house_twenty_one" => game.house.twenty_one?,
+                "house_bust" => game.house.busted?,
+                "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
+                "ap_one_bust" => game.artificial_players.first.busted?,
+                "ap_two_twenty_one" => game.artificial_players.last.twenty_one?,
+                "ap_two_bust" => game.artificial_players.last.busted?,
+                "last_round" => game.card_exhaustion?,
+                "game_over" => game.game_over?
+              }
   end
   
   def process_user_hit
@@ -91,8 +90,7 @@ class BlackjackGame
   end
   
   def process_house_action
-    hit(house) if house.house_hit? == true
-    @message = game_over?  
+    hit(house) if house.house_hit? == true 
   end
   
   def process_other_players
@@ -123,26 +121,26 @@ class BlackjackGame
     answers.include?(true)
   end
   
-  def first_round_push?
+  def first_round_push? # on start
     answers = players.map { |player| player.blackjack? }
     answers.include?(true) && is_push?
   end
   
-  def is_push?
+  def is_push? # every message
     answers = players.map { |player| player.twenty_one? }
     answers.count(true) > 1
   end
   
-  def is_winner?    
+  def is_winner? # every message   
     answers = players.map { |player| player.twenty_one? }
     answers.include?(true)
   end
   
-  def card_exhaustion?
+  def card_exhaustion? #every message
     dealer.deck.count < number_of_players * 1
   end
   
-  def game_over? #should be returned every message
+  def game_over? #every message
     house.busted? | is_winner? | blackjack_win?
   end
   
