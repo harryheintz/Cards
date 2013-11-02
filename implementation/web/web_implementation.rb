@@ -15,8 +15,8 @@ module Implementation
     end
     
     get "/test" do
-      @game = BlackjackGame.start({ "number_of_players" => 3, "user_id" => 1 }).to_json
-      mustache :test
+      #game = BlackjackGame.start({ "number_of_players" => 3, "user_id" => 1 }).to_json
+       mustache :test
     end
     
   end

@@ -3,17 +3,12 @@ module Implementation
     module Views
       class Layout < Mustache
         def title
-          @title || "Eventually, I will be a number game."
-        end
-      end
-      class Test < Layout
-        def game
-          @game
+          @title || "Blackjack Party Time(s)."
         end
       end
       class Home < Layout
         def content
-          "Welcome to the Number Game."
+          "Welcome to Blackjack game."
         end
       end
       class About < Layout
@@ -26,11 +21,11 @@ module Implementation
           "Bob Franks"
         end
       end
-      class Game < Layout
-        def game
-         "Let's get freaky with some number guessing"
+      class Test < Layout
+        def test
+          attributes = { "number_of_players"=> 3,"user_id"=> 1 }
+          test = BlackjackGame.start(attributes)
         end
-           
       end
     end
   end
