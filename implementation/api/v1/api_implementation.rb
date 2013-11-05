@@ -25,10 +25,10 @@ module Implementation
         end
       end
       
-      post '/play' do
+      put '/play' do
         body = JSON.parse(request.body.read)
         if response = BlackjackGame.play(body)
-           status 201
+           status 200
            response.to_json
         else
           status 404

@@ -29,7 +29,6 @@ class BlackjackGame
   
   def self.start(parsed_json)
     game = self.prepare(parsed_json)
-    response = {}
     response = {
                 "game_id" => game.id,
                 "user_cards" => game.user.response,
@@ -50,12 +49,11 @@ class BlackjackGame
     game.process_user_hit if options["hit"] == true
     game.process_user_stand if options["stand"] == true
     game.process_user_split if options["split"] == true
-    response = {}
     response = {
                 "game_id" => game.id,
                 "push" => game.is_push?, 
-                # "user_twenty_one" => game.user.twenty_one?,
-#                 "user_bust" => game.user.busted?,
+                "user_twenty_one" => game.user.twenty_one?,
+                "user_bust" => game.user.busted?,
                 "house_twenty_one" => game.house.twenty_one?,
                 "house_bust" => game.house.busted?,
                 "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
