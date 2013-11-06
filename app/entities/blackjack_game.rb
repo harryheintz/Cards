@@ -17,6 +17,7 @@ class BlackjackGame
     attributes = {:user => user, :number_of_players => parsed_json["number_of_players"]}
     game = create(attributes)
     return nil unless game.valid?
+    game.user.cards.destroy
     game.dealer = Dealer.new
     game.house = House.new
     game.create_artificial_players unless game.number_of_players < 2
@@ -54,18 +55,22 @@ class BlackjackGame
                 "push" => game.is_push?, 
                 "user_twenty_one" => game.user.twenty_one?,
                 "user_bust" => game.user.busted?,
+                "user_cards" => game.user.cards,
                 "house_twenty_one" => game.house.twenty_one?,
                 "house_bust" => game.house.busted?,
+                "house_cards" => game.house.response,
                 "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
                 "ap_one_bust" => game.artificial_players.first.busted?,
+                "ap_one_cards" => game.artificial_players.first.response,
                 "ap_two_twenty_one" => game.artificial_players.last.twenty_one?,
                 "ap_two_bust" => game.artificial_players.last.busted?,
+                "ap_two_cards" => game.artificial_players.last.response,
                 "last_round" => game.card_exhaustion?,
                 "game_over" => game.game_over?
               }
   end
   
-  def process_user_hit
+  def process_user_hit  
     hit(user)
     process_other_players
     process_house_action

@@ -352,6 +352,46 @@ describe BlackjackGame do
       
     end
     
+    context "when .play is given a valid request" do
+      
+      it "should respond to the user hit option" do
+        user = User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        BlackjackGame.prepare(attributes)
+        options = {"game_id" => 1, "hit" => true}
+        BlackjackGame.play(options)
+        saved_game = BlackjackGame.get(1)
+        result = saved_game.user.response
+        expect(result).to have(3).items
+      end
+      
+      it "should respond to the user stand option" do
+        user = User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        BlackjackGame.prepare(attributes)
+        options = {"game_id" => 1, "stand" => true}
+        BlackjackGame.play(options)
+        saved_game = BlackjackGame.get(1)
+        result = saved_game.user.response
+        expect(result).to have(2).items
+      end
+      
+      it "should respond to the user split option" do
+        user = User.create
+        attributes = { "number_of_players" => 3, "user_id" => 1 }
+        game = BlackjackGame.prepare(attributes)
+        game.user.cards.fetch(0).update(:value=>10) #changes the card values to be equal. passing the can_split?
+        game.user.cards.fetch(1).update(:value=>10)
+        game.user.cards.update(:name=>"test") #this keeps an ace from being evaluated
+        options = {"game_id" => 1, "split" => true}
+        BlackjackGame.play(options)
+        saved_game = BlackjackGame.get(1)
+        result = saved_game.user.response
+        expect(result).to have(4).items
+      end
+    end
+        
+        
 
   end
   

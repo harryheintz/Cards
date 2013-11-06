@@ -34,21 +34,21 @@ describe User do
   context "game play" do
       
       it "should respond to a hit request" do
-        User.create
+        user = User.create
         attributes = { "number_of_players" => 3, "user_id" => 1 }
-        saved_game = BlackjackGame.prepare(attributes)
-        options = {:id => saved_game.id, :hit => true, :stand => false, :split => false}
-        result = BlackjackGame.play(options)
-        expect(result.user.cards).to have(3).items
+        game = BlackjackGame.prepare(attributes)
+        game.process_user_hit
+        result = game.user.cards
+        expect(result).to have(3).items
       end
       
       it "should respond to a stand request" do
-        User.create
+        user = User.create
         attributes = { "number_of_players" => 3, "user_id" => 1 }
         saved_game = BlackjackGame.prepare(attributes)
-        options = {:id => saved_game.id, :hit => false, :stand => true, :split => false}
-        result = BlackjackGame.play(options)
-        expect(result.user.cards).to have(2).items
+        saved_game.process_user_stand
+        result = saved_game.user.cards
+        expect(result).to have(2).items
       end
       
       it "should determine if a hand is eleigble for a split" do
@@ -63,28 +63,29 @@ describe User do
       end
       
       it "should respond with a split request" do
-        User.create
+        user = User.create
         attributes = { "number_of_players" => 3, "user_id" => 1 }
         saved_game = BlackjackGame.prepare(attributes)
         saved_game.user.cards.fetch(0).update(:value=>10)
         saved_game.user.cards.fetch(1).update(:value=>10)
         saved_game.user.cards.update(:name=>"test")
-        options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
-        game = BlackjackGame.play(options)
-        result = game.user.cards
+        #options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
+        saved_game.process_user_split
+        result = saved_game.user.cards
         expect(result).to have(4).items
       end
       
       it "should hold split cards" do
-        User.create
+        user = User.create
         attributes = { "number_of_players" => 3, "user_id" => 1 }
         saved_game = BlackjackGame.prepare(attributes)
         saved_game.user.cards.fetch(0).update(:value=>10)
         saved_game.user.cards.fetch(1).update(:value=>10)
         saved_game.user.cards.update(:name=>"test")
-        options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
-        game = BlackjackGame.play(options)
-        result = game.user.cards.last
+        #options = {:id => saved_game.id, :hit => false, :stand => false, :split => true}
+        #game = BlackjackGame.play(options)
+        saved_game.process_user_split
+        result = saved_game.user.cards.last
         expect(result.split).to be_true
       end
   end
