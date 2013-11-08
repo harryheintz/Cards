@@ -13,7 +13,7 @@ Feature: Start the Blackjack game
     """
       {"user_id": 1,"number_of_players": 3}
     """
-    Then the response code should be "200"
+    Then the response code should be "201"
     And the JSON response body should have the following elements:
 			| game_id                     |
 			| user_cards                  |

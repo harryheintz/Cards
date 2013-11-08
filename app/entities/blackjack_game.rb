@@ -52,21 +52,21 @@ class BlackjackGame
     game.process_user_split if options["split"] == true
     response = {
                 "game_id" => game.id,
-                "push" => game.is_push?, 
-                "user_twenty_one" => game.user.twenty_one?,
+                "game_over" => game.game_over?,
                 "user_bust" => game.user.busted?,
-                "user_cards" => game.user.cards,
-                "house_twenty_one" => game.house.twenty_one?,
                 "house_bust" => game.house.busted?,
-                "house_cards" => game.house.response,
-                "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
                 "ap_one_bust" => game.artificial_players.first.busted?,
-                "ap_one_cards" => game.artificial_players.first.response,
-                "ap_two_twenty_one" => game.artificial_players.last.twenty_one?,
                 "ap_two_bust" => game.artificial_players.last.busted?,
+                "user_twenty_one" => game.user.twenty_one?,
+                "house_twenty_one" => game.house.twenty_one?,
+                "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
+                "ap_two_twenty_one" => game.artificial_players.last.twenty_one?,
+                "user_cards" => game.user.response,
+                "house_cards" => game.house.response,
+                "ap_one_cards" => game.artificial_players.first.response,
                 "ap_two_cards" => game.artificial_players.last.response,
-                "last_round" => game.card_exhaustion?,
-                "game_over" => game.game_over?
+                "push" => game.is_push?, 
+                "last_round" => game.card_exhaustion?
               }
   end
   
