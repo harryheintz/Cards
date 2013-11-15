@@ -5,6 +5,10 @@ module Implementation
         def title
           @title || "Blackjack Party Time(s)."
         end
+        def response
+          attributes = { "number_of_players"=> 3,"user_id"=> 1 }
+          test = BlackjackGame.start(attributes)
+        end
       end
       class Home < Layout
         def content
@@ -22,10 +26,10 @@ module Implementation
         end
       end
       class Test < Layout
-        def test
-          attributes = { "number_of_players"=> 3,"user_id"=> 1 }
-          test = BlackjackGame.start(attributes)
-        end
+        # def response
+   #        attributes = { "number_of_players"=> 3,"user_id"=> 1 }
+   #        test = BlackjackGame.start(attributes)
+   #      end
       end
     end
   end

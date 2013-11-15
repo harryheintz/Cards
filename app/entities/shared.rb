@@ -1,3 +1,72 @@
+
+module Outcomes
+  
+  def blackjack_win?
+    answers = players.map { |player| player.blackjack? }
+    answers.include?(true)
+  end
+  
+  def first_round_push? # on start
+    answers = players.map { |player| player.blackjack? }
+    answers.include?(true) && is_push?
+  end
+  
+  def is_push? # every message
+    answers = players.map { |player| player.twenty_one? }
+    answers.count(true) > 1
+  end
+  
+  def is_winner? # every message   
+    answers = players.map { |player| player.twenty_one? }
+    answers.include?(true)
+  end
+  
+  def card_exhaustion? #every message
+    dealer.deck.count < number_of_players * 1
+  end
+  
+  def game_over? #every message
+    house.busted? | is_winner? | blackjack_win?
+  end
+  
+end
+
+module Procedures
+  
+  def process_user_hit  
+    hit(user)
+    process_other_players
+    process_house_action
+  end
+  
+  def process_user_stand
+    process_other_players
+    process_house_action
+  end
+  
+  def process_user_split
+     hit_split(user)
+     hit_split(user)
+    #split_cards = [] <-- should not need this if set up in DataMapper
+    #split_cards = user.cards.shift <--
+    #hit(user)
+    #hit_split(user) : <-- else,
+     process_other_players
+     process_house_action
+  end
+  
+  def process_house_action
+    hit(house) if house.house_hit? == true 
+  end
+  
+  def process_other_players
+    artificial_players.each do |ap|
+      hit(ap) if ap.ap_hit?
+    end
+  end
+  
+end
+
 module Shared
   
   def can_split?
@@ -39,6 +108,8 @@ module Shared
   end
  
 end
+
+
 
 class Player
   include DataMapper::Resource, Shared

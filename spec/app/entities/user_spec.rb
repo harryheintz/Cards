@@ -1,8 +1,38 @@
 require_relative '../spec_helper'
 
 describe User do
+  
  
   context "validation" do
+    
+        before(:each) do
+        @attr={
+         :name=>"Example User", 
+         :email=> "user@example.com",
+         :password=> "foobar",
+         :password_confirmation=> "foobar"
+        }
+        end
+    
+   it "should create a new instance given valid attributes" do
+     User.create(@attr)
+   end
+
+    it "should require a name" do
+      result = no_name_user = User.new(@attr.merge(:name=>""))
+      expect(result).to not_be_valid
+    end
+    
+    it "should require an email address" do
+      result = no_email_user = User.new(@attr.merge(:email=>""))
+      expect(result).to not_be_valid
+    end
+    
+    it "should reject names that are too long" do
+      long_name="a"*51
+      result = long_name_user = User.new(@attr.merge(:name=>long_name))
+      expect(result).to not_be_valid 
+    end
   
     it "assigns an id" do
       result = User.create

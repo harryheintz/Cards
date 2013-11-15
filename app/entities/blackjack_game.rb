@@ -2,7 +2,7 @@ require_relative "./shared"
 require 'dm-validations'
 
 class BlackjackGame
-  include DataMapper::Resource
+  include DataMapper::Resource, Outcomes, Shared, Procedures
   property :id,                   Serial #blackjack_game.id
   property :number_of_players,    Integer, :required => true
   has n, :players
@@ -70,38 +70,6 @@ class BlackjackGame
               }
   end
   
-  def process_user_hit  
-    hit(user)
-    process_other_players
-    process_house_action
-  end
-  
-  def process_user_stand
-    process_other_players
-    process_house_action
-  end
-  
-  def process_user_split
-     hit_split(user)
-     hit_split(user)
-    #split_cards = [] <-- should not need this if set up in DataMapper
-    #split_cards = user.cards.shift <--
-    #hit(user)
-    #hit_split(user) : <-- else,
-     process_other_players
-     process_house_action
-  end
-  
-  def process_house_action
-    hit(house) if house.house_hit? == true 
-  end
-  
-  def process_other_players
-    artificial_players.each do |ap|
-      hit(ap) if ap.ap_hit?
-    end
-  end
-  
   def hit(player)
     card = create_card(get_dealer_cards(1))
     player.cards << card
@@ -112,39 +80,6 @@ class BlackjackGame
     card = create_card(get_dealer_cards(1), hidden=false, split=true)
     player.cards << card
     player.save  
-  end
-  
-  def calculate_card_value(string)
-    string.gsub!(/[JQK]/, "10" )
-    string.to_i
-  end
-  
-  def blackjack_win?
-    answers = players.map { |player| player.blackjack? }
-    answers.include?(true)
-  end
-  
-  def first_round_push? # on start
-    answers = players.map { |player| player.blackjack? }
-    answers.include?(true) && is_push?
-  end
-  
-  def is_push? # every message
-    answers = players.map { |player| player.twenty_one? }
-    answers.count(true) > 1
-  end
-  
-  def is_winner? # every message   
-    answers = players.map { |player| player.twenty_one? }
-    answers.include?(true)
-  end
-  
-  def card_exhaustion? #every message
-    dealer.deck.count < number_of_players * 1
-  end
-  
-  def game_over? #every message
-    house.busted? | is_winner? | blackjack_win?
   end
   
   def create_artificial_players
@@ -198,6 +133,11 @@ class BlackjackGame
     value = calculate_card_value(card_hash[:name])
     attributes = { :name => card_hash[:name], :suit => card_hash[:suit], :value => value, :hidden => hidden, :split => split}
     card = Card.create(attributes)
+  end
+  
+  def calculate_card_value(string)
+    string.gsub!(/[JQK]/, "10" )
+    string.to_i
   end
   
 end
