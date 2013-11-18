@@ -7,3 +7,11 @@ end
 map '/api/v1' do
   run Implementation::API::V1
 end
+
+# map "/game/" do
+#  run Implementation::Ember
+# end
+# 
+# map "/mobile/" do
+#  run Implementation::Mobile
+# end
