@@ -1,3 +1,5 @@
+# Rack stuff. Sets the "Route" after the ".com" 
+
 require './init'
 
 map "/" do

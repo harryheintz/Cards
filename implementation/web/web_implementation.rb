@@ -1,3 +1,5 @@
+# Sinatra. Comes after the config.ru (Rack) Add more routes to load after the first "/" in the url.
+
 module Implementation
   class Web < Sinatra::Base
     register Mustache::Sinatra
@@ -11,12 +13,7 @@ module Implementation
     set :public_folder, "implementation/web/public"
     
     get "/" do
-      mustache :layout
-    end
-    
-    get "/test" do
-      #game = BlackjackGame.start({ "number_of_players" => 3, "user_id" => 1 }).to_json
-       mustache :test
+      mustache :layout # Loads the layout file
     end
     
   end

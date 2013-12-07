@@ -1,3 +1,5 @@
+# In case some idiot has JS disabled
+
 module Implementation
   class Web < Sinatra::Base
     module Views
