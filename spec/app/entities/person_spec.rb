@@ -28,7 +28,7 @@ describe Person do
      end
  
      it "should reject names that are too long" do
-       long_name="a"*51
+       long_name = "a"*51
        result = long_name_user = Person.new(@attr.merge(:username=>long_name))
        expect(result).to_not be_valid 
      end
@@ -48,7 +48,7 @@ describe Person do
    end
    
      it "should reject invalid email addresses" do
-        addresses=%w[user@foo,com User_at_foo.com example.user@foo.]
+        addresses = %w[user@foo,com User_at_foo.com example.user@foo.]
         addresses.each do |address|
           result = invalid_email = Person.new(@attr.merge(:email=>address))
       expect(result).to_not be_valid

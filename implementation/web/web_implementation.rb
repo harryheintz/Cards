@@ -8,10 +8,10 @@ module Implementation
       :templates => 'implementation/web/templates/'
     }
     
-    set :public_folder, "implementation/web/public/"
+    set :public_folder, "implementation/web/public"
     
     get "/" do
-      mustache :home
+      mustache :layout
     end
     
     get "/test" do
