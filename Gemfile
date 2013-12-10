@@ -7,6 +7,7 @@ gem 'data_mapper'
 gem 'pg'
 gem 'dm-postgres-adapter'
 gem 'nesty'
+gem 'sinatra-handlebars'
 
 group :development do
  gem 'thin'
