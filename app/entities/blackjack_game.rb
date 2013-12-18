@@ -30,43 +30,86 @@ class BlackjackGame
   
   def self.start(parsed_json)
     game = self.prepare(parsed_json)
-    response = {
+    response =  {
                 "game_id" => game.id,
-                "user_cards" => game.user.response,
-                "house_cards" => game.house.response,
-                "ap_one_cards" => game.artificial_players.first.response,
-                "ap_two_cards" => game.artificial_players.last.response,
-                "user_split" => game.user.can_split?,
-                "user_blackjack_win" => game.user.blackjack?,
-                "house_blackjack_win" => game.house.blackjack?,
-                "ap_one_blackjack_win" => game.artificial_players.first.blackjack?,
-                "ap_two_blackjack_win" => game.artificial_players.last.blackjack?,
-                "first_round_push" => game.first_round_push?
-                }
+                "game_status" => game.game_status, #game_over, blackjack, push, continue
+                "game_message" => game.user.busted?,
+                "user" => { "user_id" => game.user.id,
+                            "cards" => game.user.response,
+                            "message" => game.user.message,
+                            "status" => game.user.status },
+                "house" => { "house_id" => game.house.id,
+                             "cards" => game.house.response,
+                             "message" => game.house.message,
+                             "status" => game.house.status},
+                artificial_players => [
+                  game.artificial_players.each do |ap|
+                    { "ap_id" => ap.id,
+                      "cards" => ap.response,
+                      "message" => ap.message,
+                      "status" => ap.status} #deal with comma
+                  end
+                ]
+              }
+     # {
+#                 "game_id" => game.id,
+#                 "user_cards" => game.user.response,
+#                 "house_cards" => game.house.response,
+#                 "ap_one_cards" => game.artificial_players.first.response,
+#                 "ap_two_cards" => game.artificial_players.last.response,
+#                 "user_split" => game.user.can_split?,
+#                 "user_blackjack_win" => game.user.blackjack?,
+#                 "house_blackjack_win" => game.house.blackjack?,
+#                 "ap_one_blackjack_win" => game.artificial_players.first.blackjack?,
+#                 "ap_two_blackjack_win" => game.artificial_players.last.blackjack?,
+#                 "first_round_push" => game.first_round_push?
+#                 }
   end
   
   def self.play(options)
     game = BlackjackGame.get(options["game_id"])
-    game.process_user_hit if options["hit"] == true
+    game.process_user_hit   if options["hit"] == true
     game.process_user_stand if options["stand"] == true
     game.process_user_split if options["split"] == true
+    # response = {
+    #             "game_id" => game.id,
+    #             "game_over" => game.game_over?,
+    #             "user_bust" => game.user.busted?,
+    #             "house_bust" => game.house.busted?,
+    #             "ap_one_bust" => game.artificial_players.first.busted?,
+    #             "ap_two_bust" => game.artificial_players.last.busted?,
+    #             "user_twenty_one" => game.user.twenty_one?,
+    #             "house_twenty_one" => game.house.twenty_one?,
+    #             "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
+    #             "ap_two_twenty_one" => game.artificial_players.last.twenty_one?,
+    #             "user_cards" => game.user.response,
+    #             "house_cards" => game.house.response,
+    #             "ap_one_cards" => game.artificial_players.first.response,
+    #             "ap_two_cards" => game.artificial_players.last.response,
+    #             "push" => game.is_push?, 
+    #             "last_round" => game.card_exhaustion?
+    #           }
+    
     response = {
                 "game_id" => game.id,
-                "game_over" => game.game_over?,
-                "user_bust" => game.user.busted?,
-                "house_bust" => game.house.busted?,
-                "ap_one_bust" => game.artificial_players.first.busted?,
-                "ap_two_bust" => game.artificial_players.last.busted?,
-                "user_twenty_one" => game.user.twenty_one?,
-                "house_twenty_one" => game.house.twenty_one?,
-                "ap_one_twenty_one" => game.artificial_players.first.twenty_one?,
-                "ap_two_twenty_one" => game.artificial_players.last.twenty_one?,
-                "user_cards" => game.user.response,
-                "house_cards" => game.house.response,
-                "ap_one_cards" => game.artificial_players.first.response,
-                "ap_two_cards" => game.artificial_players.last.response,
-                "push" => game.is_push?, 
-                "last_round" => game.card_exhaustion?
+                "game_status" =>  game.game_status,#game_over, blackjack, push, continue
+                "game_message" => game.user.busted?,
+                "user" => { "user_id" => game.user.id,
+                            "cards" => game.user.response,
+                            "message" => game.user.message,
+                            "status" => game.user.status },
+                "house" => { "house_id" => game.house.id,
+                             "cards" => game.house.response,
+                             "message" => game.house.message ,
+                             "status" => game.house.status},
+                artificial_players => [
+                  game.artificial_players.each do |ap|
+                    { "ap_id" => ap.id,
+                      "cards" => ap.response,
+                      "message" => ap.message,
+                      "status" => ap.status} #deal with comma
+                  end
+                ]
               }
   end
   
@@ -140,8 +183,13 @@ class BlackjackGame
     string.to_i
   end
   
+  def game_status
+    "Thanks for playing, Buh Bye!" if game_over?
+    
+  end
+  
 end
   
 
-  
+
 

@@ -61,7 +61,7 @@ module Procedures
   
   def process_other_players
     artificial_players.each do |ap|
-      hit(ap) if ap.ap_hit?
+      hit(ap) if ap.hit?
     end
   end
   
@@ -80,11 +80,11 @@ module Shared
   end
   
   def blackjack?
-    twenty_one? && cards.count == 2
+    calculate_hand == 21 && cards.count == 2
   end
   
   def twenty_one?
-    calculate_hand == 21
+    calculate_hand == 21 && cards.count > 2
   end
   
   def busted?
@@ -125,6 +125,36 @@ class Player
       response << card.response
     end
     response
+  end
+  
+  def status
+    case
+    when blackjack?
+      "blackjack" 
+    when twenty_one?
+      "twentyone"
+    when stand?
+      "standng"
+    when busted? 
+      "busted"
+    else
+      "continue"
+    end
+  end
+  
+  def message
+    case
+      when blackjack? 
+        "Yay! Blackjack! Fireworks!!!"
+      when twenty_one?
+        "WINNER!"
+      when stand?
+        "Stand!"
+      when busted?
+        "BUSTED!" 
+      else
+         "Play on!"
+    end
   end
   
 end

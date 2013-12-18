@@ -6,4 +6,8 @@ class House < Player
     calculate_hand < 17
   end
   
+  def stand?
+   (18..21) === calculate_hand
+  end
+  
 end

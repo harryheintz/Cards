@@ -15,7 +15,7 @@ App.Router.map(function() {
 
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller) {
-    controller.set('title', "Blackjack Part Time(s)!");
+    controller.set('title', "Blackjack Party Time(s)!");
 	controller.set('header', "This is the header");
 	controller.set('footer', "This is the footer, yo!");
   }

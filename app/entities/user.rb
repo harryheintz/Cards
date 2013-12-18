@@ -4,6 +4,8 @@ class User < Player
 
   attr_accessor  :hit, :stand, :split
   
-  
+  def stand?
+    ["stand"] == true
+  end
 
 end

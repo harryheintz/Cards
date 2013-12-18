@@ -16,17 +16,5 @@ module Implementation
       erb :layout
     end
     
-    # get "/home" do
-#       mustache :home
-#     end
-#     
-#     post "/start" do
-#       mustache :start
-#     end
-#     
-#     put "play" do
-#       mustache :play
-#     end
-    
   end
 end

@@ -53,8 +53,8 @@ describe House do
       game.house.cards.fetch(1).update(:value=>10)
       game.house.cards.update(:name=>"test")
       game.process_house_action
-      result = game.house.cards
-      expect(result).to have(2).items 
+      result = game.house.stand?
+      expect(result).to be_true
     end
     
   end

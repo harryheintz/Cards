@@ -277,7 +277,7 @@ describe BlackjackGame do
         game.house.cards.fetch(0).update(:value=>10)
         game.house.cards.fetch(1).update(:value=>9)
         game.house.cards.update(:name=>"test")
-        result = game.blackjack_win?
+        result = game.game_over?
         expect(result).to be_true 
     end
     
@@ -320,6 +320,19 @@ describe BlackjackGame do
       game.artificial_players.first.cards.update(:name=>"test")
       result = game.game_over?
       expect(result).to be_true
+    end
+    
+    it "should return a specific message if the game is over" do
+      User.create
+      attributes = { "number_of_players" => 3, "user_id" => 1 }
+        game = BlackjackGame.prepare(attributes)
+        game.hit(game.house)
+        game.house.cards.fetch(0).update(:value=>10)
+        game.house.cards.fetch(1).update(:value=>10)
+        game.house.cards.fetch(2).update(:value=>10)
+        game.house.cards.update(:name=>"test")
+        result = game.game_status
+        expect(result).to include("Thanks for playing, Buh Bye!")
     end
     
   end
