@@ -5,7 +5,7 @@ class User < Player
   attr_accessor  :hit, :stand, :split
   
   def stand?
-    ["stand"] == true
+    # @options["stand"] == true
   end
 
 end

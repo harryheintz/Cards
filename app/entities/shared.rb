@@ -26,7 +26,7 @@ module Outcomes
   end
   
   def game_over? #every message
-    house.busted? | is_winner? | blackjack_win?
+    house.busted? | is_winner? | blackjack_win? | user.busted?
   end
   
 end

@@ -32,8 +32,8 @@ class BlackjackGame
     game = self.prepare(parsed_json)
     response =  {
                 "game_id" => game.id,
-                "game_status" => game.game_status, #game_over, blackjack, push, continue
-                "game_message" => game.user.busted?,
+                "game_status" => game.game_status, 
+                "game_message" => game.game_message,
                 "user" => { "user_id" => game.user.id,
                             "cards" => game.user.response,
                             "message" => game.user.message,
@@ -42,15 +42,12 @@ class BlackjackGame
                              "cards" => game.house.response,
                              "message" => game.house.message,
                              "status" => game.house.status},
-                artificial_players => [
-                  game.artificial_players.each do |ap|
-                    { "ap_id" => ap.id,
-                      "cards" => ap.response,
-                      "message" => ap.message,
-                      "status" => ap.status} #deal with comma
-                  end
-                ]
-              }
+                "artificial_players" => 
+                           { "ap_id" => game.artificial_players.first.id,
+                             "cards" => game.artificial_players.first.response,
+                             "message" => game.artificial_players.first.message,
+                             "status" => game.artificial_players.first.status} 
+                }
      # {
 #                 "game_id" => game.id,
 #                 "user_cards" => game.user.response,
@@ -93,7 +90,7 @@ class BlackjackGame
     response = {
                 "game_id" => game.id,
                 "game_status" =>  game.game_status,#game_over, blackjack, push, continue
-                "game_message" => game.user.busted?,
+                "game_message" => game.game_message,
                 "user" => { "user_id" => game.user.id,
                             "cards" => game.user.response,
                             "message" => game.user.message,
@@ -102,14 +99,11 @@ class BlackjackGame
                              "cards" => game.house.response,
                              "message" => game.house.message ,
                              "status" => game.house.status},
-                artificial_players => [
-                  game.artificial_players.each do |ap|
-                    { "ap_id" => ap.id,
-                      "cards" => ap.response,
-                      "message" => ap.message,
-                      "status" => ap.status} #deal with comma
-                  end
-                ]
+               "artificial_players" => 
+                          { "ap_id" => game.artificial_players.first.id,
+                            "cards" => game.artificial_players.first.response,
+                            "message" => game.artificial_players.first.message,
+                            "status" => game.artificial_players.first.status} 
               }
   end
   
@@ -184,8 +178,19 @@ class BlackjackGame
   end
   
   def game_status
-    "Thanks for playing, Buh Bye!" if game_over?
-    
+    if game_over?  
+      "game over"
+    else
+      "continue"
+    end
+  end
+  
+  def game_message
+    if game_over?
+      "And that's a wrap!"
+    else
+      "Next play..."
+    end
   end
   
 end

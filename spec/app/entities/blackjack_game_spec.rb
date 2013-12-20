@@ -332,7 +332,7 @@ describe BlackjackGame do
         game.house.cards.fetch(2).update(:value=>10)
         game.house.cards.update(:name=>"test")
         result = game.game_status
-        expect(result).to include("Thanks for playing, Buh Bye!")
+        expect(result).to include("game over")
     end
     
   end

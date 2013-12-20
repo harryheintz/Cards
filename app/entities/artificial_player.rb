@@ -8,7 +8,7 @@ class ArtificialPlayer < Player
    end 
    
    def stand?
-      calculate_hand > 17
+      (18..21) === calculate_hand
      #some behavior that determines if this is true
    end
    

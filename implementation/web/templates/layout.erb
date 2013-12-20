@@ -22,6 +22,15 @@
  
 	</script> 
 	
+	<script type="text/x-handlebars"  id="start">
+
+	 <p>Your cards are {{#each user.cards}}{{image_key}}{{/each}}. {{user.message}}</p>
+	  <p>The House cards are  {{#each house.cards}}{{image_key}}{{/each}}. {{house.message}}</p>
+	   <p>Mike is holding  {{#each artificial_players.cards}}{{image_key}}{{/each}}. {{artificial_players.message}}</p>
+	   <p>{{game_message}}
+ 
+	</script> 
+	
 	
 	
 	

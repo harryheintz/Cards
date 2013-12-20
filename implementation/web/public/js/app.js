@@ -25,9 +25,9 @@ App.ApplicationRoute = Ember.Route.extend({
 
 // Assign the model
 
-App.HomeRoute = Ember.Route.extend({
-  setupController: function(controller, home) {
-    controller.set('model', home);
+App.StartRoute = Ember.Route.extend({
+  model: function() {
+    return start_message;
   }
 });
 
@@ -68,3 +68,132 @@ App.HomeController = Ember.Controller.extend({
 // });
 
 // App.Play.FIXTURES = JSON DATA from API;
+
+var start_message = {
+    "game_id": 12,
+    "game_status": "continue",
+    "game_message": "Next play...",
+    "user": {
+        "user_id": 1,
+        "cards": [
+            {
+                "image_key": "4Spades",
+                "value": 4,
+                "hidden": true
+            },
+            {
+                "image_key": "7Diamonds",
+                "value": 7,
+                "hidden": false
+            }
+        ],
+        "message": "Play on!",
+        "status": "continue"
+    },
+    "house": {
+        "house_id": 27,
+        "cards": [
+            {
+                "image_key": "7Hearts",
+                "value": 7,
+                "hidden": true
+            },
+            {
+                "image_key": "6Hearts",
+                "value": 6,
+                "hidden": false
+            }
+        ],
+        "message": "Play on!",
+        "status": "continue"
+    },
+    "artificial_players": {
+        "ap_id": 26,
+        "cards": [
+            {
+                "image_key": "5Clubs",
+                "value": 5,
+                "hidden": true
+            },
+            {
+                "image_key": "9Hearts",
+                "value": 9,
+                "hidden": false
+            }
+        ],
+        "message": "Play on!",
+        "status": "continue"
+    }
+};
+
+var play_message = {
+    "game_id": 12,
+    "game_status": "game over",
+    "game_message": "And that's a wrap!",
+    "user": {
+        "user_id": 1,
+        "cards": [
+            {
+                "image_key": "4Spades",
+                "value": 4,
+                "hidden": true
+            },
+            {
+                "image_key": "7Diamonds",
+                "value": 7,
+                "hidden": false
+            },
+            {
+                "image_key": "10Clubs",
+                "value": 10,
+                "hidden": false
+            }
+        ],
+        "message": "WINNER!",
+        "status": "twentyone"
+    },
+    "house": {
+        "house_id": 27,
+        "cards": [
+            {
+                "image_key": "7Hearts",
+                "value": 7,
+                "hidden": true
+            },
+            {
+                "image_key": "6Hearts",
+                "value": 6,
+                "hidden": false
+            },
+            {
+                "image_key": "7Spades",
+                "value": 7,
+                "hidden": false
+            }
+        ],
+        "message": "Stand!",
+        "status": "standng"
+    },
+    "artificial_players": {
+        "ap_id": 26,
+        "cards": [
+            {
+                "image_key": "5Clubs",
+                "value": 5,
+                "hidden": true
+            },
+            {
+                "image_key": "9Hearts",
+                "value": 9,
+                "hidden": false
+            },
+            {
+                "image_key": "9Diamonds",
+                "value": 9,
+                "hidden": false
+            }
+        ],
+        "message": "BUSTED!",
+        "status": "busted"
+    }
+};
