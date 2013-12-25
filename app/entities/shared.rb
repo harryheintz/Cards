@@ -134,7 +134,7 @@ class Player
     when twenty_one?
       "twentyone"
     when stand?
-      "standng"
+      "standing"
     when busted? 
       "busted"
     else

@@ -11,7 +11,7 @@ App.Router.map(function() {
  
 });
 
-// Instantiates the data to be used throught the app on the layout template.
+// Data to be used throught the app on the layout template.
 
 App.ApplicationRoute = Ember.Route.extend({
   setupController: function(controller) {
@@ -21,28 +21,22 @@ App.ApplicationRoute = Ember.Route.extend({
   }
 });
 
-
-
-// Assign the model
-
-App.StartRoute = Ember.Route.extend({
-  model: function() {
-    return start_message;
-  }
+App.HomeRoute = Ember.Route.extend({
+	//not sure what goes here yet
+  		
 });
 
-// App.StartRoute = Ember.Route.extend({
-//   setupController: function(controller, start) {
-//     controller.set('model', start);
-//   }
-// });
+App.StartRoute = Ember.Route.extend({
+	model: function() {
+	  return App.Start.find();
+  } 
+});
 
-// App.PlayRoute = Ember.Route.extend({
-//   setupController: function(controller, play) {
-//     controller.set('model', play);
-//   }
-// });
-
+App.PlayRoute = Ember.Route.extend({
+	model: function() {
+	  return play_message;
+  }
+});
 
 // Assign the controller to be instantiated
 App.HomeController = Ember.Controller.extend({
@@ -54,20 +48,23 @@ App.HomeController = Ember.Controller.extend({
 
 
 // These are Models for the data
+App.Store = DS.Store.extend({
+	adapter: 'DS.FixtureAdapter'
+});
 
-// App.Start = DS.Model.extend({
-// 	Json data by key
+App.Start = DS.Model.extend({
+	// Json data by key
+	//  example: game_id: DS.attr('integer'),
+});
+
+App.Start.FIXTURES = JSON DATA from API;
+
+App.Play = DS.Model.extend({
+	// JSON data by key
 //  example: game_id: DS.attr('integer'),
-// });
+});
 
-// App.Start.FIXTURES = JSON DATA from API;
-
-// App.Play = DS.Model.extend({
-// 	JSON data by key
-//  example: game_id: DS.attr('integer'),
-// });
-
-// App.Play.FIXTURES = JSON DATA from API;
+App.Play.FIXTURES = //JSON DATA from API;
 
 var start_message = {
     "game_id": 12,

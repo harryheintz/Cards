@@ -4,7 +4,7 @@ describe Player do
   
   context "card labeling" do
     
-    it "should return a retival-friendly hash for cards" do
+    it "should return a retrival-friendly hash for cards" do
       User.create
       attributes = { "number_of_players" => 3, "user_id" => 1 }
       game = BlackjackGame.prepare(attributes)
@@ -51,7 +51,7 @@ describe Player do
       BlackjackGame.play(options)
       saved_game = BlackjackGame.get(1)
       result = saved_game.user.status
-      expect(result).to eq("stand")
+      expect(result).to eq("standing")
     end
     
     it "should return appropriatley for a house bust" do

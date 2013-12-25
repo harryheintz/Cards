@@ -14,21 +14,77 @@
 	{{title}}
 
 	  {{outlet}}
+	
 	</script>
 	
 	<script type="text/x-handlebars"  id="home">
 
-	 <p>Your card is a {{cardFace}}, with a value of {{cardValue}}.</p>
+	<div id="start">
+		<form id = "start">
+			<p>Enter user ID: <input type="text" name="user_id"><br></p>
+			<p>Enter number of players: <input type="text" name="number_of_players"><br></p>
+		</form>
+		<button>Start the game</button>	
+	</div>
+	
  
 	</script> 
 	
 	<script type="text/x-handlebars"  id="start">
 
-	 <p>Your cards are {{#each user.cards}}{{image_key}}{{/each}}. {{user.message}}</p>
-	  <p>The House cards are  {{#each house.cards}}{{image_key}}{{/each}}. {{house.message}}</p>
-	   <p>Mike is holding  {{#each artificial_players.cards}}{{image_key}}{{/each}}. {{artificial_players.message}}</p>
-	   <p>{{game_message}}
+<div id="user">
+{{#with user}}
+	<p>Your cards are:
+		<ul>
+			{{#each cards}}
+				<li class="cards">{{image_key}}</li>
+			{{/each}} 
+		</ul>
+	</p>
+	<div class="message">
+		{{message}}
+	</div>
+{{/with}}
+</div>
+
+<div id="ap">
+	{{#with artificial_players}}
+		<p>Mike is holding:
+			<ul>
+				{{#each cards}}
+					<li class="cards">{{image_key}}</li>
+				{{/each}} 
+			</ul>
+		</p>
+		<div class="message">
+			{{message}}
+		</div>
+	{{/with}}
+</div>	
+   
+<div id="house">
+	{{#with house}}
+		<p>The House cards are:
+			<ul>
+				{{#each cards}}
+					<li class="cards">{{image_key}}</li>
+				{{/each}} 
+			</ul>
+		</p>
+		<div class="message">
+			{{message}}
+		</div>
+	{{/with}}
+</div>
+
  
+	</script> 
+	
+	<script type="text/x-handlebars"  id="play">
+		<p>Your cards are {{#each user.cards}}{{image_key}}{{/each}}. {{user.message}}</p>
+		<p>The House cards are  {{#each house.cards}}{{image_key}}{{/each}}. {{house.message}}</p>
+		<p>Mike is holding  {{#each artificial_players.cards}}{{image_key}}{{/each}}. {{artificial_players.message}}</p>
+		<p>{{game_message}}
 	</script> 
 	
 	
@@ -42,9 +98,11 @@
    
 
 
-	<script src="js/libs/jquery-1.9.1.js"></script>
+	<script src="js/libs/jquery-1.10.2.js"></script>
 	<script src="js/libs/handlebars-1.0.0.js"></script>
-	<script src="js/libs/ember-1.1.2.js"></script>
+	<script src="js/libs/ember-1.2.0.js"></script>
+	<script src="js/libs/ember-data-0.13.js"></script>
+	<script src="js/libs/blackjack.js"></script>
 	<script src="js/app.js"></script>
 	
   </body>
